@@ -1,0 +1,35 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+
+@layer base{
+@font-face {
+        font-family: 'Jeko Bold';
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+        src: url(/adopta/assets/fonts/Jeko Bold.ttf) format("truetype"),
+    }
+
+    @font-face {
+        font-family: 'Jeko';
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+        src: url(/adopta/assets/fonts/Jeko Medium.ttf) format("truetype"),
+    }
+}
+
+@layer components {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select,textarea {
+        @apply py-2 px-4;
+    }
+
+
+}
