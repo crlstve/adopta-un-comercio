@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -132,3 +133,6 @@ dist
 =======
 node_modules
 >>>>>>> 4b00966 (Init)
+=======
+node_modules
+>>>>>>> 9efb7ec451e0e157a598e11af6662037c4328fad
