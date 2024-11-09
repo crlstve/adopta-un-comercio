@@ -1,11 +1,5 @@
 <?php
-if (!defined('ABSPATH')) {
-    exit; // Salir si el archivo no es accedido directamente
-}
-require_once( ABSPATH . 'wp-admin/includes/image.php' );
-require_once( ABSPATH . 'wp-admin/includes/file.php' );
-require_once( ABSPATH . 'wp-admin/includes/media.php' );
-
+if (!defined('ABSPATH')) {exit; }
 // Verificar si el formulario se envía y el nonce es válido
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['comercio_nonce_field']) && wp_verify_nonce($_POST['comercio_nonce_field'], 'crear_comercio')) {
 
@@ -45,13 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['comercio_nonce_field'
     }
 
     // Crear el post
-    $nuevo_post = array(
-        'post_title'    => $titulo,
-        'post_content'  => $contenido,
-        'post_excerpt'  => $extracto,
-        'post_status'   => 'draft', // Guardar como borrador
-        'post_type'     => 'comercios'
-    );
+        $nuevo_post = array(
+            'post_title'    => $titulo,
+            'post_content'  => $contenido,
+            'post_excerpt'  => $extracto,
+            'post_status'   => 'draft', // Guardar como borrador
+            'post_type'     => 'comercios'
+        );
 
     $post_id = wp_insert_post($nuevo_post);
 
@@ -84,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['comercio_nonce_field'
     }
 
     // Configurar y enviar el correo
-    $to = 'adopta@adoptauncomercio.com';
+    $to = $admin_mail ;
     $subject = 'NUEVO COMERCIO';
     $message = "Se ha recibido un nuevo comercio pendiente de revisión.\n\n" . 
                "Nombre del Comercio: $titulo\n" .
@@ -103,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['comercio_nonce_field'
     wp_mail($to, $subject, $message, $headers);
 
     echo "<div class='contain text-center text-orange text-2xl my-12'>Gracias por inscribirte. En breve nos pondremos en contacto contigo, mucho ánimo.</div>
-        <a class='btn-dark text-white w-fit mx-auto py-3 px-6' href='https://adoptauncomercio.com/'>Volver</a>
+        <a class='bg-dark text-white w-fit mx-auto py-3 px-6' href='https://adoptauncomercio.com/'>Volver</a>
     ";
     exit;
 }

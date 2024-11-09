@@ -48,7 +48,7 @@ include_once get_stylesheet_directory() . '/inc/user-form.php';
                         }
                         ?>
                     </select>
-                    <button type="submit" name="submit_usuario" class="btn-dark text-white w-full mx-auto py-3 px-6"><?= _e('Enviar','adopta'); ?></button>
+                    <button type="submit" name="submit_usuario" class="bg-dark text-white w-full mx-auto py-3 px-6"><?= _e('Enviar','adopta'); ?></button>
                 </form>
             </div>
             <button onclick="desplegable();" class="bg-dark aspect-video px-6 max-w-24 h-fit absolute bottom-0 right-0 left-0 mx-auto translate-y-full"><div class="rotate-90 text-white font-xl transition-all transform duration-500">></div></button>
@@ -105,7 +105,7 @@ include_once get_stylesheet_directory() . '/inc/user-form.php';
     <input type="file" name="img_2" id="img_2" accept="image/*" required>
 </div>
                             <!--button-->
-                            <button type="submit" class="btn-dark text-white w-full mx-auto py-3 px-6"><?= _e('Enviar','adopta'); ?></button>
+                            <button type="submit" class="bg-dark text-white w-full mx-auto py-3 px-6"><?= _e('Enviar','adopta'); ?></button>
                 </form>
             </div>
             <button onclick="desplegable_2();" class="bg-dark aspect-video px-6 max-w-24 h-fit absolute bottom-0 right-0 left-0 mx-auto translate-y-full"><div class="rotate-90 text-white font-xl transition-all transform duration-500">></div></button>

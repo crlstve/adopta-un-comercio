@@ -6,20 +6,45 @@
 
 
 @layer base{
-@font-face {
-        font-family: 'Jeko Bold';
-        font-weight: 100 900;
-        font-style: normal;
-        font-display: swap;
-        src: url(/adopta/assets/fonts/Jeko Bold.ttf) format("truetype"),
-    }
-
+    :root {
+            --color-pink: #ee69f9;
+            --color-orange: #e7a300;
+            --color-dark: #232323;
+        }
+    @font-face{
+            font-family: 'Jeko Bold';
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+            src: url(../fonts/Jeko_Bold.ttf) format("truetype"),
+        }
     @font-face {
         font-family: 'Jeko';
         font-weight: 100 900;
         font-style: normal;
         font-display: swap;
-        src: url(/adopta/assets/fonts/Jeko Medium.ttf) format("truetype"),
+        src: url(../fonts/Jeko_Medium.ttf) format("truetype"),
+        }
+    *{
+        font-family: 'Jeko Bold', sans-serif;
+    }
+    .bg-dark {
+        background-color: var(--color-dark);
+        color: white;
+    }
+    .bg-orange {
+        background-color: var(--color-orange);
+        color: var(--color-dark);
+    }
+    .bg-pink {
+        background-color: var(--color-pink);
+        color: var(--color-dark);
+    }
+    .text-orange {
+        color: var(--color-orange);
+    }
+    .font-light {
+        font-family: 'Jeko Medium', sans-serif;
     }
 }
 
@@ -30,6 +55,7 @@
     select,textarea {
         @apply py-2 px-4;
     }
+
 
 
 }

@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_usuario'])) {
         //$password = sanitize_text_field($_POST['password']); // Contraseña del usuario
         $comercio = sanitize_text_field($_POST['comercio']);
         // Crear el usuario en WordPress
-        $user_id = wp_create_user($username, $comercio.'_dana_2024*', $email);
+        $user_id = wp_create_user($username, $generate_password, $email);
         $nombre_comercio = get_the_title($comercio);
 
         if (!is_wp_error($user_id)) {
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_usuario'])) {
             update_post_meta($comercio, 'adopter',$user_id);
 
             // Enviar el correo con los datos del usuario (sin incluir la contraseña)
-            $to = 'adopta@adoptauncomercio.com';
+            $to = $admin_mail;
             $subject = 'Nuevo Usuario Creado';
             $message = "
                 Se ha creado un nuevo usuario en la página.\n\n

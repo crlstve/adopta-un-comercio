@@ -3,7 +3,7 @@
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	 <!--<script src="https://cdn.tailwindcss.com"></script>-->
+	<title><?php bloginfo( 'name' ); ?></title>
 	<?php wp_head(); ?>
 	<!-- Google tag (gtag.js) 
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-GTKGPXZPZG"></script>-->

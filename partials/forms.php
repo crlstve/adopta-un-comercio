@@ -8,7 +8,7 @@
                         <h1 class="text-3xl font-bold mx-auto"><?= _e('ADOPTA UN COMERCIO','adopta'); ?></h1>
                         <span class="mb-4 font-semibold mx-auto"><?= _e('SI ERES INFLUENCER','adopta'); ?></span>
                     </header>
-                <div class="h-0 hidden" data-toggle="influencer">
+                <div class="h-0 hidden transition-all transition-all duration-500 ease-in-out" data-toggle="influencer">
                     <!-- Formulario para influencers -->
                     <form id="form_usuario" action="" method="post" class="flex flex-col gap-4">
                         <?php wp_nonce_field('crear_usuario', 'usuario_nonce_field'); ?>
@@ -41,7 +41,7 @@
                             }
                             ?>
                         </select>
-                        <button type="submit" name="submit_usuario" class="btn-dark text-white w-full mx-auto py-3 px-6"><?= _e('Enviar','adopta'); ?></button>
+                        <button type="submit" name="submit_usuario" class="bg-dark text-white w-full mx-auto py-3 px-6"><?= _e('Enviar','adopta'); ?></button>
                     </form>
                 </div>
                 <button onclick="desplegable();" class="bg-dark aspect-video px-6 max-w-24 h-fit absolute bottom-0 right-0 left-0 mx-auto translate-y-full"><div class="rotate-90 text-white font-xl transition-all transform duration-500">></div></button>
@@ -98,7 +98,7 @@
                                     <input type="file" name="img_2" id="img_2" accept="image/*" required>
                                 </div>
                                 <!--button-->
-                                <button type="submit" class="btn-dark text-white w-full mx-auto py-3 px-6"><?= _e('Enviar','adopta'); ?></button>
+                                <button type="submit" class="bg-dark text-white w-full mx-auto py-3 px-6"><?= _e('Enviar','adopta'); ?></button>
                     </form>
                 </div>
                 <button onclick="desplegable_2();" class="bg-dark aspect-video px-6 max-w-24 h-fit absolute bottom-0 right-0 left-0 mx-auto translate-y-full"><div class="rotate-90 text-white font-xl transition-all transform duration-500">></div></button>

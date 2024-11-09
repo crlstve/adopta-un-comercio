@@ -39,7 +39,7 @@
         // Verificar si hay posts disponibles
         if ($comercios_query->have_posts()) :
     ?>
-        <ul id="cxc-posts" class="comercios-list grid grid-cols-1 gap-12 md:gap-16 cxc-posts">
+        <ul id="cxc-posts" class="comercios-list grid grid-cols-1 gap-12 md:gap-16 cxc-posts my-12 md:my-24">
             <?php while ($comercios_query->have_posts()) : $comercios_query->the_post(); 
                 $id_post = get_the_ID();
                 $data = get_field('comerce_data', $id_post);

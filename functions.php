@@ -4,39 +4,56 @@
  **/
 // Exit if accessed directly.
 	if ( ! defined( 'ABSPATH' ) ) { exit; }
-// Cargar estilos del tema padre y del tema hijo
-   /* function twentytwentyfour_child_enqueue_styles() {
-        wp_enqueue_style('parent-style', get_stylesheet_directory_uri() . '/style.css');
-        wp_enqueue_style('child-style', get_stylesheet_uri(), array('parent-style'));
-    }
-    add_action('wp_enqueue_scripts', 'twentytwentyfour_child_enqueue_styles');*/
-// Cargar estilos de Tailwindcss
-    function tailwind_css() {
-        wp_enqueue_style('tailwindcss', get_stylesheet_directory_uri() . '/assets/css/theme.css', array(), '1.0', 'all');
-    }
-    add_action('wp_enqueue_scripts', 'tailwind_css');        
-// Cargar js
-	function now_register_scripts() {
-        if(is_front_page()){
-		wp_enqueue_script( 'toggle-forms', get_stylesheet_directory_uri() . '/assets/js/toggle-forms.js', array(), '1.0', false );
+/*******************************************************************************
+ *  INCLUDES
+ ******************************************************************************/
+    require_once( ABSPATH . 'wp-admin/includes/image.php' );
+    require_once( ABSPATH . 'wp-admin/includes/file.php' );
+    require_once( ABSPATH . 'wp-admin/includes/media.php' );
+    include_once get_template_directory() . '/inc/private-data.php';
+    include_once get_template_directory() . '/inc/comercio-form.php'; 
+    include_once get_template_directory() . '/inc/user-form.php'; 
+/*******************************************************************************
+ *  CARGA DE ESTILOS Y SCRIPTS
+ ******************************************************************************/
+    // Cargar estilos de Tailwindcss
+        function tailwind_css() {
+            wp_enqueue_style('tailwindcss', get_stylesheet_directory_uri() . '/assets/css/theme.css', array(), '1.0', 'all');
         }
-        wp_localize_script('more-post', 'wp_data', array(
-        'ajax_url' => admin_url('admin-ajax.php'),
-        'page_id' => get_the_ID() // Pasamos el ID de la página al script
-        ));
-        wp_enqueue_script( 'more-post', get_stylesheet_directory_uri() . '/assets/js/load-more-post.js', array('jquery'), '1.0', false );
-	}
-	add_action( 'wp_enqueue_scripts', 'now_register_scripts' );
-// Cargar jquery
-    function cargar_jquery() { if (!wp_script_is('jquery', 'enqueued')) { wp_enqueue_script('jquery'); }}
-    add_action('wp_enqueue_scripts', 'cargar_jquery');
-// Menú clásico de WordPress
-    function child_theme_setup() {
-        register_nav_menus(array(
-            'primary' => __('Primary Menu', 'twentytwentyfourchild'),
-        ));
+        add_action('wp_enqueue_scripts', 'tailwind_css');        
+    // Cargar js
+        function now_register_scripts() {
+            if(is_front_page()){
+            wp_enqueue_script( 'toggle-forms', get_stylesheet_directory_uri() . '/assets/js/toggle-forms.js', array(), '1.0', false );
+            }
+            wp_localize_script('more-post', 'wp_data', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'page_id' => get_the_ID() // Pasamos el ID de la página al script
+            ));
+            wp_enqueue_script( 'more-post', get_stylesheet_directory_uri() . '/assets/js/load-more-post.js', array('jquery'), '1.0', false );
+        }
+        add_action( 'wp_enqueue_scripts', 'now_register_scripts' );
+    // Cargar jquery
+        function cargar_jquery() { if (!wp_script_is('jquery', 'enqueued')) { wp_enqueue_script('jquery'); }}
+        add_action('wp_enqueue_scripts', 'cargar_jquery');
+    // Menú clásico de WordPress
+        function child_theme_setup() {
+            register_nav_menus(array(
+                'primary' => __('Primary Menu', 'twentytwentyfourchild'),
+            ));
+        }
+        add_action('after_setup_theme', 'child_theme_setup');
+    // Personalización del Wawlker para el Menú
+    class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
+        public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+            $classes = 'text-base text-lg';
+            $output .= sprintf('<li><a href="%s" class="%s">%s</a></li>',
+                esc_url($item->url),
+                esc_attr($classes),
+                esc_html($item->title)
+            );
+        }
     }
-    add_action('after_setup_theme', 'child_theme_setup');
 
 /*******************************************************************************
  *  COMERCIOS
@@ -434,7 +451,6 @@
                                         <?php if (has_post_thumbnail()) : ?>
                                             <?php $featured_image_url = get_the_post_thumbnail_url(get_the_ID(), 'medium'); ?>
                                             <div class="w-full md:w-4/12 min-h-64" style="background-image: url('<?php echo esc_url($featured_image_url); ?>'); background-size: cover; background-position: center;">
-                                                <!-- Puedes añadir contenido aquí si lo necesitas -->
                                             </div>
                                         <?php endif; ?>
                                             <article class="w-full py-6 flex flex-col gap-4 justify-between px-6">
@@ -474,7 +490,6 @@
                                                 $img_2_url = wp_get_attachment_image_url($img_2_id, 'medium'); // Cambiar a wp_get_attachment_image_url para obtener la URL
                                             ?>
                                                 <div class="w-full md:w-4/12 min-h-64" style="background-image: url('<?= esc_url($img_2_url); ?>'); background-size: cover; background-position: center;">
-                                                    <!-- Aquí puedes añadir contenido adicional si es necesario -->
                                                 </div>
                                             <?php endif; ?>
                                             <article class="needs w-full py-6 flex flex-col gap-4 justify-start px-6">
@@ -516,3 +531,39 @@
 /*******************************************************************************
  * FILTRO DE ADOPTADOS O NO ADOPTADOS
  ******************************************************************************/
+
+/*******************************************************************************
+ * APIS
+ ******************************************************************************/
+
+    // API para obtener los usuarios suscriptores
+        function obtener_usuarios_suscriptores() {
+        // Verificar permisos (opcional)
+        if (!current_user_can('manage_options')) {
+            return new WP_Error('permiso_denegado', 'No tienes permisos para acceder a esta información.', array('status' => 403));
+        }
+        // Obtener los usuarios con el rol 'subscriber'
+        $usuarios = get_users(array(
+            'role' => 'subscriber'
+        ));
+        // Crear el array de respuesta
+        $datos_usuarios = array();
+        foreach ($usuarios as $usuario) {
+            $datos_usuarios[] = array(
+                'ID' => $usuario->ID,
+                'username' => $usuario->user_login,
+                'email' => $usuario->user_email,
+                'nombre' => $usuario->display_name,
+            );
+        }
+        return rest_ensure_response($datos_usuarios);
+        }
+    // Registrar la API
+        function registrar_api_usuarios_suscriptores() {
+            register_rest_route('miapi/v1', '/suscriptores', array(
+                'methods' => 'GET',
+                'callback' => 'obtener_usuarios_suscriptores',
+                'permission_callback' => '__return_true', // Cambiar a validación si es necesario
+            ));
+        }
+        add_action('rest_api_init', 'registrar_api_usuarios_suscriptores');
