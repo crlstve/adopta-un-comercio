@@ -11,21 +11,25 @@
     $title_color = (has_term(['adoptado', 'adoptado_void'], 'comercio_categoria', $post)) ? 'text-white' : 'text-dark';
     $user_rrss = get_field('rrss_adopter');
     $adopter = get_field('adopter'); 
-    // Obtener el ID de los usuarios desde el campo ACF 'adopter', ahora $user_id es un array
-        $user_ids = get_field('adopter'); // Obtener el array de IDs de los usuarios
-        // Crear un array para almacenar los correos electrónicos
-        $user_name = array();
-        foreach ($user_ids as $user_id) {
-            // Obtener la información del usuario usando get_userdata
-            $user_info = get_userdata($user_id);
-            // Verificar si la información del usuario existe y agregar el correo al array
-            if ($user_info) {
-                // Agregar el correo al array
-                $user_name[] = $user_info->user_nicename;
-            }
-        }
+                //adopter
+                $user_rrss = get_field('rrss_adopter');
+                if(!$user_rrss){ 
+                    $user_ids = get_field('adopter'); 
+                    $user_name = array(); 
+                    if(is_array($user_ids)) {
+                        foreach ($user_ids as $user_id) { 
+                            $user_info = get_userdata($user_id); 
+                            if ($user_info) { 
+                                $user_name[] = $user_info->user_nicename; 
+                            } 
+                        } $user_rrss = implode(', ', $user_name); 
+                    }
+                } 
 ?>
 <main class="contain max-w-7xl mx-auto px-6 mt-12 md:mt-24">
+
+    <?= get_template_part('partials/filtros'); ?>
+
     <div class="comercio-item">
        <div class="bg-dark flex flex-col md:flex-row justify-between">
        <!-- Imagen destacada -->
@@ -88,7 +92,7 @@
                        </div>
                    </div>
        <?php endif; ?>
-   </div>
+    </div>
 
 </main>
 <?php get_footer(); ?>

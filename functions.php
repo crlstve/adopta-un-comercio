@@ -43,7 +43,7 @@
     // Personalización del Wawlker para el Menú
         class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
             public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
-                $classes = 'text-base text-lg text-gray-400 hover:text-black text-base md:text-xl';
+                $classes = 'text-base md:text-lg text-gray-400 hover:text-black text-base md:text-xl';
                 $output .= sprintf('<li class="border border-1 border-black py-2 px-4 text-center"><a href="%s" class="%s">%s</a></li>',
                     esc_url($item->url),
                     esc_attr($classes),

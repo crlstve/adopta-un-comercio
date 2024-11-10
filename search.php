@@ -4,8 +4,6 @@
     <div class="flex flex-col justify-center gap-4">
         <h1 class="self-center">Resultados de búsqueda para: <?= get_search_query(); ?></h1>
         <?= get_template_part('partials/filtros'); ?>
-        <button>
-        <a class="w-fit bg-dark text-white mx-auto text-center cursor-pointer px-6 py-3" href="<?= esc_url(home_url('/')); ?>"><?= esc_html_e('Volver a la página principal','adopta'); ?></a></button>
     </div>
     <?php if (have_posts()) : ?>
         <ul class="comercios-list grid grid-cols-1 gap-12 md:gap-16 my-12 md:my-24">
