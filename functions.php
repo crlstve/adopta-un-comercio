@@ -1,7 +1,4 @@
 <?php
-/**
- * Now functions and definitions
- **/
 // Exit if accessed directly.
 	if ( ! defined( 'ABSPATH' ) ) { exit; }
 /*******************************************************************************
@@ -44,16 +41,31 @@
         }
         add_action('after_setup_theme', 'child_theme_setup');
     // Personalización del Wawlker para el Menú
-    class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
-        public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
-            $classes = 'text-base text-lg';
-            $output .= sprintf('<li><a href="%s" class="%s">%s</a></li>',
-                esc_url($item->url),
-                esc_attr($classes),
-                esc_html($item->title)
-            );
+        class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
+            public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+                $classes = 'text-base text-lg text-gray-400 hover:text-black text-base md:text-xl';
+                $output .= sprintf('<li class="border border-1 border-black py-2 px-4 text-center"><a href="%s" class="%s">%s</a></li>',
+                    esc_url($item->url),
+                    esc_attr($classes),
+                    esc_html($item->title)
+                );
+            }
         }
-    }
+    //  Buscador de Comercios
+        function custom_search_only_titles($query) {
+            if (!is_admin() && $query->is_main_query() && $query->is_search()) {
+                $query->set('post_type', 'comercios'); // Filtra al CPT `comercios`
+                add_filter('posts_search', function($search, $wp_query) {
+                    global $wpdb;
+                    if ($wp_query->is_search()) {
+                        $search_term = esc_sql($wp_query->query_vars['s']);
+                        $search = "AND ({$wpdb->posts}.post_title LIKE '%{$search_term}%')";
+                    }
+                    return $search;
+                }, 10, 2);
+            }
+        }
+        add_action('pre_get_posts', 'custom_search_only_titles');
 
 /*******************************************************************************
  *  COMERCIOS
@@ -560,7 +572,6 @@
             if (!is_admin() || !$query->is_main_query() || $query->get('post_type') !== 'comercios') {
                 return;
             }
-
             if ('adopter' === $query->get('orderby')) {
                 $query->set('meta_key', 'adopter');
                 $query->set('orderby', 'meta_value');
@@ -603,29 +614,23 @@
                 }
                 return $value;
             }
-
     // 3. Hacer que la columna sea ordenable
             add_filter('manage_users_sortable_columns', 'hacer_columna_comercio_ordenable');
             function hacer_columna_comercio_ordenable($sortable_columns) {
                 $sortable_columns['comercio_asociado'] = 'comercio_asociado';
                 return $sortable_columns;
             }
-
     // 4. Ordenar por "Comercio Asociado"
             add_action('pre_get_users', 'ordenar_por_comercio_asociado');
             function ordenar_por_comercio_asociado($query) {
                 if (!is_admin() || !$query->is_main_query()) {
                     return;
                 }
-
                 if ('comercio_asociado' === $query->get('orderby')) {
                     $query->set('meta_key', 'adopter');
                     $query->set('orderby', 'meta_value');
                 }
             }
-
-
-
 
 /*******************************************************************************
  * APIS
