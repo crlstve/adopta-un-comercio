@@ -13,7 +13,7 @@
         </nav>
         <form class="flex flex-row justify-center gap-0" role="search" method="get" id="searchform" action="<?php echo home_url('/'); ?>">
             <input type="hidden" name="post_type" value="comercios" />
-            <input class="border border-1 border-black" type="text" value="<?php echo get_search_query(); ?>" name="s" id="s" placeholder="Buscar en Comercios" />
+            <input class="border border-1 border-black" type="text" value="<?php echo get_search_query(); ?>" name="s" id="s" placeholder="Buscar un comercio" />
             <button class="bg-dark text py-3 px-6 white" type="submit">Buscar</button>
         </form>
     </section>
