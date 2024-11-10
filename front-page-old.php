@@ -6,14 +6,14 @@ include_once get_stylesheet_directory() . '/inc/user-form.php';
 <main class="contain 2xl:max-w-7xl mx-auto px-6">
     <!--<h1><?php post_type_archive_title(); ?></h1> -->
     <section class="w-full flex flex-col gap-4 my-10 md:my-16 md:px-16 ">
-        <p class="text-center font-semibold"><?php _e('Una iniciativa solidaria, liderada por influencers y otros rostros conocidos, para visibilizar y recaudar ayuda destinada a los comercios locales que lo han perdido todo por la DANA.', 'adopta'); ?></p>
-        <p class="text-orange text-center font-semibold" ><?php _e('Importante: cuando un comercio aparece señalado como "adoptado", no implica que haya recibido todavía lo que necesita, sino que el influencer responsable de ese negocio ya ha compartido, a través de sus redes sociales, la petición de ayuda.', 'adopta'); ?></p> 
+        <p class="text-center font-semibold"><?php esc_html_e('Una iniciativa solidaria, liderada por influencers y otros rostros conocidos, para visibilizar y recaudar ayuda destinada a los comercios locales que lo han perdido todo por la DANA.', 'adopta'); ?></p>
+        <p class="text-orange text-center font-semibold" ><?php esc_html_e('Importante: cuando un comercio aparece señalado como "adoptado", no implica que haya recibido todavía lo que necesita, sino que el influencer responsable de ese negocio ya ha compartido, a través de sus redes sociales, la petición de ayuda.', 'adopta'); ?></p> 
     </div>
     <div id="forms" class="w-full flex flex-row flex-wrap justify-center gap-24 md:gap-12 mx-auto my-12 md:my-24">
         <div class="w-full md:w-2/5 bg-orange py-12 px-6 h-fit relative">
                 <header class="mx-auto text-center mb-6">
-                    <h1 class="text-3xl font-bold mx-auto"><?= _e('ADOPTA UN COMERCIO','adopta'); ?></h1>
-                    <span class="mb-4 font-semibold mx-auto"><?= _e('SI ERES INFLUENCER','adopta'); ?></span>
+                    <h1 class="text-3xl font-bold mx-auto"><?= esc_html_e('ADOPTA UN COMERCIO','adopta'); ?></h1>
+                    <span class="mb-4 font-semibold mx-auto"><?= esc_html_e('SI ERES INFLUENCER','adopta'); ?></span>
                 </header>
             <div class="h-0 hidden" data-toggle="influencer">
                 <!-- Formulario para influencers -->
@@ -24,7 +24,7 @@ include_once get_stylesheet_directory() . '/inc/user-form.php';
                     <input placeholder="Nombre" type="text" name="first_name" id="first_name" required>
                     <input placeholder="Apellido" type="text" name="last_name" id="last_name" required>
                         <select id="comercio" name="comercio" required>
-                        <option value="" class="color-slate-600"><?php _e('Selecciona un comercio', 'adopta'); ?></option>
+                        <option value="" class="color-slate-600"><?php esc_html_e('Selecciona un comercio', 'adopta'); ?></option>
                         <?php
                         // Obtener comercios excluyendo los que están en categorías adoptado y adoptado_void
                         $args = array(
@@ -48,15 +48,15 @@ include_once get_stylesheet_directory() . '/inc/user-form.php';
                         }
                         ?>
                     </select>
-                    <button type="submit" name="submit_usuario" class="bg-dark text-white w-full mx-auto py-3 px-6"><?= _e('Enviar','adopta'); ?></button>
+                    <button type="submit" name="submit_usuario" class="bg-dark text-white w-full mx-auto py-3 px-6"><?= esc_html_e('Enviar','adopta'); ?></button>
                 </form>
             </div>
             <button onclick="desplegable();" class="bg-dark aspect-video px-6 max-w-24 h-fit absolute bottom-0 right-0 left-0 mx-auto translate-y-full"><div class="rotate-90 text-white font-xl transition-all transform duration-500">></div></button>
         </div>
         <div class="w-full md:w-2/5 bg-pink py-12 px-6 h-fit relative">
             <header class="mx-auto text-center mb-6">
-                <h2 class="text-3xl font-bold mx-auto"><?= _e('INSCRÍBETE','adopta'); ?></h2>
-                <span class="mb-4 font-semibold mx-auto"><?= _e('SI ERES UN COMERCIO AFECTADO','adopta'); ?></span>
+                <h2 class="text-3xl font-bold mx-auto"><?= esc_html_e('INSCRÍBETE','adopta'); ?></h2>
+                <span class="mb-4 font-semibold mx-auto"><?= esc_html_e('SI ERES UN COMERCIO AFECTADO','adopta'); ?></span>
             </header>
             <div class="h-0 hidden" data-toggle="comercio">
                 <!-- Formulario para enviar el comercio -->
@@ -67,7 +67,7 @@ include_once get_stylesheet_directory() . '/inc/user-form.php';
                             <input placeholder="Nombre del Comercio" type="text" id="titulo" name="titulo" required>
                             <!-- Select para etiquetas -->
                             <select name="tipo_comercio" id="tipo_comercio" required>
-                                <option value=""><?php _e('Tipo de Comercio', 'adopta'); ?></option>
+                                <option value=""><?php esc_html_e('Tipo de Comercio', 'adopta'); ?></option>
                                 <?php
                                 $etiquetas = get_terms(array(
                                     'taxonomy' => 'comercio_etiqueta',
@@ -105,7 +105,7 @@ include_once get_stylesheet_directory() . '/inc/user-form.php';
     <input type="file" name="img_2" id="img_2" accept="image/*" required>
 </div>
                             <!--button-->
-                            <button type="submit" class="bg-dark text-white w-full mx-auto py-3 px-6"><?= _e('Enviar','adopta'); ?></button>
+                            <button type="submit" class="bg-dark text-white w-full mx-auto py-3 px-6"><?= esc_html_e('Enviar','adopta'); ?></button>
                 </form>
             </div>
             <button onclick="desplegable_2();" class="bg-dark aspect-video px-6 max-w-24 h-fit absolute bottom-0 right-0 left-0 mx-auto translate-y-full"><div class="rotate-90 text-white font-xl transition-all transform duration-500">></div></button>
@@ -174,20 +174,20 @@ include_once get_stylesheet_directory() . '/inc/user-form.php';
                                     <div class="w-full md:w-7/12 flex flex-col gap-3 self-start">
                                         <span class="text-white"><?= $contacto; ?>  |  <?= $email; ?></span>
                                         <ul class="grid grid-cols-3 w-full">
-                                            <li><?php _e('Localidad','adopta'); ?></li>
+                                            <li><?php esc_html_e('Localidad','adopta'); ?></li>
                                             <li class="col-span-2"><?= $localidad; ?></li>
-                                            <li><?php _e('Dirección','adopta'); ?></li>
+                                            <li><?php esc_html_e('Dirección','adopta'); ?></li>
                                             <li class="col-span-2"><?= $direccion; ?></li>
                                             <?php if($cif): ?>
-                                            <li><?php _e('Cif','adopta'); ?></li>
+                                            <li><?php esc_html_e('Cif','adopta'); ?></li>
                                             <li class="col-span-2"><?= $cif; ?></li>
                                             <?php endif; ?>                                            
                                             <?php if($iban): ?>
-                                            <li><?php _e('IBAN','adopta'); ?></li>
+                                            <li><?php esc_html_e('IBAN','adopta'); ?></li>
                                             <li class="col-span-2"><?= $iban; ?></li>
                                             <?php endif; ?>
                                             <?php if($bizum): ?>
-                                            <li><?php _e('Bizum','adopta'); ?></li>
+                                            <li><?php esc_html_e('Bizum','adopta'); ?></li>
                                             <li class="col-span-2"><?= $bizum; ?></li>
                                             <?php endif; ?>
                                         </ul>
@@ -209,7 +209,7 @@ include_once get_stylesheet_directory() . '/inc/user-form.php';
                                 </div>
                             <?php endif; ?>
                             <article class="needs w-full py-6 flex flex-col gap-4 justify-start px-6">
-                                <h2 class="<?= $title_color ?> text-3xl font-bold"><?php _e('¿Qué necesita?','adopta'); ?></h2>
+                                <h2 class="<?= $title_color ?> text-3xl font-bold"><?php esc_html_e('¿Qué necesita?','adopta'); ?></h2>
                                 <div class="<?=$title_color ?> gap-2 list-disc">
                                     <?php the_content(); ?>
                                 </div>
@@ -219,7 +219,7 @@ include_once get_stylesheet_directory() . '/inc/user-form.php';
                             <div class="bg-orange flex flex-row justify-center w-full py-8 gap-6">
                                 <?= wp_get_attachment_image(66, 'thumb', true, ['class' => 'w-12 h-12 self-center']); ?>
                                 <div class="self-center">
-                                    <span class="text-xs font-light"><?php _e('COMERCIO ADOPTADO POR','adopta'); ?></span>
+                                    <span class="text-xs font-light"><?php esc_html_e('COMERCIO ADOPTADO POR','adopta'); ?></span>
                                     <h2 class="font-bold text-lg"><?= $user_rrss; ?></h2>
                                 </div>
                             </div>
@@ -248,7 +248,7 @@ include_once get_stylesheet_directory() . '/inc/user-form.php';
             ?>
         </div>
     <?php else : ?>
-        <p><?php _e('No hay comercios disponibles.', 'adopta'); ?></p>
+        <p><?php esc_html_e('No hay comercios disponibles.', 'adopta'); ?></p>
     <?php endif; ?>
 </main>
 <?php get_footer(); ?>

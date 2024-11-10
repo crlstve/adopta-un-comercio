@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['comercio_nonce_field'
     }
 
     // Configurar y enviar el correo
-    $to = $admin_mail ;
+    $to = $admin_mail;
     $subject = 'NUEVO COMERCIO';
     $message = "Se ha recibido un nuevo comercio pendiente de revisión.\n\n" . 
                "Nombre del Comercio: $titulo\n" .
@@ -96,9 +96,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['comercio_nonce_field'
     $headers = array('Content-Type: text/plain; charset=UTF-8');
     wp_mail($to, $subject, $message, $headers);
 
-    echo "<div class='contain text-center text-orange text-2xl my-12'>Gracias por inscribirte. En breve nos pondremos en contacto contigo, mucho ánimo.</div>
-        <a class='bg-dark text-white w-fit mx-auto py-3 px-6' href='https://adoptauncomercio.com/'>Volver</a>
-    ";
+    echo "<div style='width:100%;max-width:1000px;margin:5rem 0rem;display:flex;flex-firection:column'>
+        <div style='width:100%;padding:2rem 0rem;'>
+            <span style='font-weight:bold;padding:1rem;font-size:1.5rem;'>Gracias por inscribirte. En breve nos pondremos en contacto contigo, mucho ánimo.</span><br>
+            <a style='text-decoration:none;color:white;font-size:1.2rem;' href=". home_url() . ">
+            <button style='background-color:#232323;color:white;padding:1.2rem;width:fit-content;cursor:pointer;margin-top:1rem;'>Volver a la página principal</button>
+            </a>
+        </div>
+    </div>";
+    
     exit;
 }
 ?>

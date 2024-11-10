@@ -459,20 +459,20 @@
                                                     <div class="w-full md:w-7/12 flex flex-col gap-3 self-start">
                                                         <span class="text-white"><?= $contacto; ?>  |  <?= $email; ?></span>
                                                         <ul class="grid grid-cols-3 w-full">
-                                                            <li><?php _e('Localidad','adopta'); ?></li>
+                                                            <li><?php esc_html_e('Localidad','adopta'); ?></li>
                                                             <li class="col-span-2"><?= $localidad; ?></li>
-                                                            <li><?php _e('Dirección','adopta'); ?></li>
+                                                            <li><?php esc_html_e('Dirección','adopta'); ?></li>
                                                             <li class="col-span-2"><?= $direccion; ?></li>
                                                             <?php if($cif): ?>
-                                                            <li><?php _e('Cif','adopta'); ?></li>
+                                                            <li><?php esc_html_e('Cif','adopta'); ?></li>
                                                             <li class="col-span-2"><?= $cif; ?></li>
                                                             <?php endif; ?>                                            
                                                             <?php if($iban): ?>
-                                                            <li><?php _e('IBAN','adopta'); ?></li>
+                                                            <li><?php esc_html_e('IBAN','adopta'); ?></li>
                                                             <li class="col-span-2"><?= $iban; ?></li>
                                                             <?php endif; ?>
                                                             <?php if($bizum): ?>
-                                                            <li><?php _e('Bizum','adopta'); ?></li>
+                                                            <li><?php esc_html_e('Bizum','adopta'); ?></li>
                                                             <li class="col-span-2"><?= $bizum; ?></li>
                                                             <?php endif; ?>
                                                         </ul>
@@ -493,7 +493,7 @@
                                                 </div>
                                             <?php endif; ?>
                                             <article class="needs w-full py-6 flex flex-col gap-4 justify-start px-6">
-                                                <h2 class="<?= $title_color ?> text-3xl font-bold"><?php _e('¿Qué necesita?','adopta'); ?></h2>
+                                                <h2 class="<?= $title_color ?> text-3xl font-bold"><?php esc_html_e('¿Qué necesita?','adopta'); ?></h2>
                                                 <div class="<?=$title_color ?> gap-2 list-disc">
                                                     <?php the_content(); ?>
                                                 </div>
@@ -503,7 +503,7 @@
                                             <div class="bg-orange flex flex-row justify-center w-full py-8 gap-6">
                                                 <?= wp_get_attachment_image(66, 'thumb', true, ['class' => 'w-12 h-12 self-center']); ?>
                                                 <div class="self-center">
-                                                    <span class="text-xs font-light"><?php _e('COMERCIO ADOPTADO POR','adopta'); ?></span>
+                                                    <span class="text-xs font-light"><?php esc_html_e('COMERCIO ADOPTADO POR','adopta'); ?></span>
                                                     <h2 class="font-bold text-lg"><?= $user_rrss; ?></h2>
                                                 </div>
                                             </div>
@@ -529,8 +529,103 @@
 
 
 /*******************************************************************************
- * FILTRO DE ADOPTADOS O NO ADOPTADOS
+ * INFORMACIÓN EN TABLAS DE ADMINISTRACIÓN
  ******************************************************************************/
+    // 1. Añadir columna "Padrino" en la tabla de administración del CPT 'comercios'
+        add_filter('manage_comercios_posts_columns', 'agregar_columna_acf_adopter');
+        function agregar_columna_acf_adopter($columns) {
+            $columns['adopter'] = __('Influencer', 'adopta');
+            return $columns;
+        }
+    // 2. Mostrar el valor del campo ACF en la columna
+        add_action('manage_comercios_posts_custom_column', 'mostrar_valor_acf_adopter', 10, 2);
+        function mostrar_valor_acf_adopter($column, $post_id) {
+            if ($column === 'adopter') {
+                $adopter_id = get_field('adopter', $post_id);
+                $adopter = isset($adopter_id[0]) ? get_user_by('id', $adopter_id[0]) : null;
+                $adopter_name = $adopter ? $adopter->user_nicename : 'No definido';
+                $adopter_url = $adopter ? get_edit_user_link($adopter->ID) : '';
+                echo '<a href="' . esc_url($adopter_url) . '" target="_blank">' . esc_html($adopter_name) . '</a>';
+            }
+        }
+    // 3. Hacer que la columna sea ordenable
+        add_filter('manage_edit-comercios_sortable_columns', 'hacer_columna_adopter_ordenable');
+        function hacer_columna_adopter_ordenable($sortable_columns) {
+            $sortable_columns['adopter'] = 'adopter';
+            return $sortable_columns;
+        }
+    // 4. Ordenar por el valor de "Padrino"
+        add_action('pre_get_posts', 'ordenar_por_adopter');
+        function ordenar_por_adopter($query) {
+            if (!is_admin() || !$query->is_main_query() || $query->get('post_type') !== 'comercios') {
+                return;
+            }
+
+            if ('adopter' === $query->get('orderby')) {
+                $query->set('meta_key', 'adopter');
+                $query->set('orderby', 'meta_value');
+            }
+        }
+    // 1. Añadir columna "Comercio Asociado" en la tabla de usuarios
+            add_filter('manage_users_columns', 'agregar_columna_comercio_en_usuarios');
+            function agregar_columna_comercio_en_usuarios($columns) {
+                $columns['comercio_asociado'] = __('Comercio Asociado', 'adopta');
+                return $columns;
+            }
+    // 2. Mostrar el nombre del comercio asociado al usuario
+            add_action('manage_users_custom_column', 'mostrar_comercio_asociado', 10, 3);
+            function mostrar_comercio_asociado($value, $column_name, $user_id) {
+                if ($column_name === 'comercio_asociado') {
+                    $args = [
+                        'post_type'   => 'comercios',
+                        'post_status' => 'publish',
+                        'meta_query'  => [
+                            [
+                                'key'     => 'adopter',
+                                'value'   => $user_id,
+                                'compare' => 'LIKE'
+                            ]
+                        ]
+                    ];
+                    $query = new WP_Query($args);
+
+                    if ($query->have_posts()) {
+                        $comercios = [];
+                        while ($query->have_posts()) {
+                            $query->the_post();
+                             $comercios[] = '<a href="' . esc_url(get_edit_post_link()) . '" target="_blank">' . get_the_title() . '</a>';
+                        }
+                        wp_reset_postdata();
+                        return implode(', ', $comercios);
+                    } else {
+                        return __('Sin comercio asociado', 'adopta');
+                    }
+                }
+                return $value;
+            }
+
+    // 3. Hacer que la columna sea ordenable
+            add_filter('manage_users_sortable_columns', 'hacer_columna_comercio_ordenable');
+            function hacer_columna_comercio_ordenable($sortable_columns) {
+                $sortable_columns['comercio_asociado'] = 'comercio_asociado';
+                return $sortable_columns;
+            }
+
+    // 4. Ordenar por "Comercio Asociado"
+            add_action('pre_get_users', 'ordenar_por_comercio_asociado');
+            function ordenar_por_comercio_asociado($query) {
+                if (!is_admin() || !$query->is_main_query()) {
+                    return;
+                }
+
+                if ('comercio_asociado' === $query->get('orderby')) {
+                    $query->set('meta_key', 'adopter');
+                    $query->set('orderby', 'meta_value');
+                }
+            }
+
+
+
 
 /*******************************************************************************
  * APIS

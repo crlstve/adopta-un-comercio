@@ -75,20 +75,20 @@ get_header(); // Llama al encabezado del tema
                                         <div class="w-full md:w-7/12 flex flex-col gap-3 self-start">
                                             <span class="text-white"><?= $contacto; ?>  |  <?= $email; ?></span>
                                             <ul class="grid grid-cols-3 w-full">
-                                                <li><?php _e('Localidad','adopta'); ?></li>
+                                                <li><?php esc_html_e('Localidad','adopta'); ?></li>
                                                 <li class="col-span-2"><?= $localidad; ?></li>
-                                                <li><?php _e('Dirección','adopta'); ?></li>
+                                                <li><?php esc_html_e('Dirección','adopta'); ?></li>
                                                 <li class="col-span-2"><?= $direccion; ?></li>
                                                 <?php if($cif): ?>
-                                                <li><?php _e('Cif','adopta'); ?></li>
+                                                <li><?php esc_html_e('Cif','adopta'); ?></li>
                                                 <li class="col-span-2"><?= $cif; ?></li>
                                                 <?php endif; ?>                                            
                                                 <?php if($iban): ?>
-                                                <li><?php _e('IBAN','adopta'); ?></li>
+                                                <li><?php esc_html_e('IBAN','adopta'); ?></li>
                                                 <li class="col-span-2"><?= $iban; ?></li>
                                                 <?php endif; ?>
                                                 <?php if($bizum): ?>
-                                                <li><?php _e('Bizum','adopta'); ?></li>
+                                                <li><?php esc_html_e('Bizum','adopta'); ?></li>
                                                 <li class="col-span-2"><?= $bizum; ?></li>
                                                 <?php endif; ?>
                                             </ul>
@@ -110,7 +110,7 @@ get_header(); // Llama al encabezado del tema
                                     </div>
                                 <?php endif; ?>
                                 <article class="needs w-full py-6 flex flex-col gap-4 justify-start px-6">
-                                    <h2 class="<?= $title_color ?> text-3xl font-bold"><?php _e('¿Qué necesita?','adopta'); ?></h2>
+                                    <h2 class="<?= $title_color ?> text-3xl font-bold"><?php esc_html_e('¿Qué necesita?','adopta'); ?></h2>
                                     <div class="<?=$title_color ?> gap-2 list-disc">
                                         <?php the_content(); ?>
                                     </div>
@@ -120,7 +120,7 @@ get_header(); // Llama al encabezado del tema
                                 <div class="bg-orange flex flex-row justify-center w-full py-8 gap-6">
                                     <?= wp_get_attachment_image(66, 'thumb', true, ['class' => 'w-12 h-12 self-center']); ?>
                                     <div class="self-center">
-                                        <span class="text-xs font-light"><?php _e('COMERCIO ADOPTADO POR','adopta'); ?></span>
+                                        <span class="text-xs font-light"><?php esc_html_e('COMERCIO ADOPTADO POR','adopta'); ?></span>
                                         <h2 class="font-bold text-lg"><?= $user_rrss; ?></h2>
                                     </div>
                                 </div>
@@ -149,7 +149,7 @@ get_header(); // Llama al encabezado del tema
                     </div>
                     <?php wp_reset_postdata(); ?>
             <?php else : ?>
-                    <p><?php _e('No hay comercios disponibles.', 'adopta'); ?></p>
+                    <p><?php esc_html_e('No hay comercios disponibles.', 'adopta'); ?></p>
             <?php endif; ?>
     </main>
 <?php get_footer(); ?>
