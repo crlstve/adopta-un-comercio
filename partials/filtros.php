@@ -1,4 +1,4 @@
-    <section class="w-full md:w-4/5 mx-auto mb-12 flex flex-col gap-4 md:gap-12 md:mt-16">
+    <section class="w-full md:w-4/5 mx-auto mb-12 flex flex-col gap-4 md:gap-12 mt-16">
         <nav>
             <?php 
                 $args = array(
