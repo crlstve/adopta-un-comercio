@@ -1,4 +1,4 @@
-<section id="posts-container"  class="cxc-post-wrapper">
+<section id="posts-container">
     <?php 
         // Capturamos el número de página actual
         $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
@@ -58,7 +58,7 @@
         // Comprobamos si la consulta tiene resultados
         if ($comercios_query->have_posts()) :
     ?>
-        <ul id="cxc-posts" class="comercios-list grid grid-cols-1 gap-12 md:gap-16 cxc-posts my-12 md:my-24">
+        <ul class="comercios-list grid grid-cols-1 gap-12 md:gap-16 cxc-posts my-12 md:my-24">
             <?php while ($comercios_query->have_posts()) : $comercios_query->the_post(); 
                 $id_post = get_the_ID();
                 $data = get_field('comerce_data', $id_post);
