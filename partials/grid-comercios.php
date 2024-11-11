@@ -1,42 +1,61 @@
 <section id="posts-container"  class="cxc-post-wrapper">
-<?php 
-        // Obtener el número de página actual para la paginación
+    <?php 
+        // Capturamos el número de página actual
         $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-        // Obtener el ID de la página actual
-        $page_id = get_queried_object_id();
-        // Establecer los argumentos para la consulta
+        // Recoger la ciudad desde la query string si está presente
+        $search_city = $_GET['search_city'] ?? '';
+        // Argumentos básicos para la consulta
         $args = array(
-            'post_type' => 'comercios', // Define el custom post type
-            'posts_per_page' => 5, // Número de posts por página
-            'paged' => $paged, // Número de la página actual
+            'post_type' => 'comercios',
+            'posts_per_page' => 5,
+            'paged' => $paged,  // Configurar paginación correctamente
         );
-        // Verifica si estamos en una taxonomía de "comercio_categoria"
-        if (is_tax('comercio_categoria')) {
-            // Obtener la categoría actual
+        // Si hay un filtro de ciudad, añadimos un 'meta_query'
+        if (!empty($search_city)) {
+            $args['meta_query'] = array(
+                array(
+                    'key' => 'comerce_data_city',
+                    'value' => $search_city,
+                    'compare' => 'LIKE'
+                )
+            );
+        }
+        // Aquí se ajustan las condiciones para las taxonomías
+        if (is_front_page()) {
+            $args['tax_query'] = [];
+        } elseif (is_tax(['comercio_categoria', 'comercio_etiqueta'])) {
+            // Si estamos en una taxonomía específica, filtramos por ella
             $term = get_queried_object();
-            // Modificar la consulta para filtrar por la categoría
             $args['tax_query'] = array(
+                'relation' => 'OR',
                 array(
                     'taxonomy' => 'comercio_categoria',
-                    'field'    => 'id', // Puedes usar 'slug' si prefieres
+                    'field'    => 'id',
+                    'terms'    => $term->term_id,
+                    'operator' => 'IN',
+                ),
+                array(
+                    'taxonomy' => 'comercio_etiqueta',
+                    'field'    => 'id',
                     'terms'    => $term->term_id,
                     'operator' => 'IN',
                 ),
             );
         } elseif (is_archive()) {
-            $term = get_queried_object();
+            // En los archivos, también filtramos por las categorías 'adopted' y 'adopted_void'
             $args['tax_query'] = array(
+                'relation' => 'OR',
                 array(
                     'taxonomy' => 'comercio_categoria',
-                    'field'    => 'id', // Puedes usar 'slug' si prefieres
-                    'terms'    => array('adoptado','adoptado_void'),
-                    'operator' => 'IN',
+                    'field'    => 'slug',
+                    'terms'    => array('adoptado', 'adoptado_void'),
+                    'operator' => 'NOT IN',  // Usamos IN en lugar de NOT IN
                 ),
             );
         }
-        // Realizar la consulta
+        // Realizamos la consulta con los argumentos establecidos
         $comercios_query = new WP_Query($args);
-        // Verificar si hay posts disponibles
+        // Comprobamos si la consulta tiene resultados
         if ($comercios_query->have_posts()) :
     ?>
         <ul id="cxc-posts" class="comercios-list grid grid-cols-1 gap-12 md:gap-16 cxc-posts my-12 md:my-24">
@@ -65,7 +84,7 @@
                             } 
                         } $user_rrss = implode(', ', $user_name); 
                     }
-                } 
+                }
             ?>
                 <li class="comercio-item">
                             <div class="bg-dark flex flex-col md:flex-row justify-between">
@@ -146,21 +165,31 @@
             <?php endwhile; ?>
         </ul>
         <!-- Paginación -->
-        <?php if (is_tax('comercio_categoria')): ?>
             <div class="pagination">
                 <?php
-                the_posts_pagination(array(
-                    'mid_size' => 2,
-                    'prev_text' => __('&laquo; Anterior', 'textdomain'),
-                    'next_text' => __('Siguiente &raquo;', 'textdomain'),
-                ));
+                    $big = 999999999; // Necesario para obtener correctamente el enlace de la paginación
+                    $pagination_args = array(
+                        'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
+                        'format' => '?paged=%#%',
+                        'total' => $comercios_query->max_num_pages,
+                        'current' => max(1, get_query_var('paged')),
+                        'show_all' => false,
+                        'prev_text' => __('&laquo; Anterior', 'adopta'),
+                        'next_text' => __('Siguiente &raquo;', 'adopta'),
+                        'type' => 'list',
+                    );
+                    // Establecer clases personalizadas
+                        $pagination_args['before_page_number'] = '<span class="page-num">';
+                        $pagination_args['after_page_number']  = '</span>';
+                        $pagination_links = paginate_links($pagination_args);
+                        // Aquí puedes agregar clases CSS para cada enlace de paginación.
+                        if (isset($pagination_links)) {
+                            $pagination_links = str_replace('<ul class="page-numbers">', '<ul class="page-numbers ">', $pagination_links);
+                            $pagination_links = str_replace('page-numbers', 'flex flex-row flex-wrap justify-center gap-6', $pagination_links); 
+                            echo $pagination_links;
+                        }                       
                 ?>
             </div>
-        <?php else: ?>
-            <a id="codex-load-more" class="codex-load-more w-fit bg-dark text-white mx-auto text-center cursor-pointer px-6 py-3" data-page="2" style="display: table;">
-            <?php esc_html_e('Más Comercios','adopta'); ?>
-            </a>
-        <?php endif; ?>
     <?php else : ?>
         <p><?php esc_html_e('No hay comercios disponibles.', 'adopta'); ?></p>
     <?php endif; ?>

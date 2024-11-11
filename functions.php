@@ -7,9 +7,7 @@
     require_once( ABSPATH . 'wp-admin/includes/image.php' );
     require_once( ABSPATH . 'wp-admin/includes/file.php' );
     require_once( ABSPATH . 'wp-admin/includes/media.php' );
-    include_once get_template_directory() . '/inc/private-data.php';
-    include_once get_template_directory() . '/inc/comercio-form.php'; 
-    include_once get_template_directory() . '/inc/user-form.php'; 
+    add_theme_support('post-thumbnails');
 /*******************************************************************************
  *  CARGA DE ESTILOS Y SCRIPTS
  ******************************************************************************/
@@ -20,19 +18,14 @@
         add_action('wp_enqueue_scripts', 'tailwind_css');        
     // Cargar js
         function now_register_scripts() {
-            if(is_front_page()){
             wp_enqueue_script( 'toggle-forms', get_stylesheet_directory_uri() . '/assets/js/toggle-forms.js', array(), '1.0', false );
-            }
-            wp_localize_script('more-post', 'wp_data', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'page_id' => get_the_ID() // Pasamos el ID de la página al script
-            ));
-            wp_enqueue_script( 'more-post', get_stylesheet_directory_uri() . '/assets/js/load-more-post.js', array('jquery'), '1.0', false );
         }
         add_action( 'wp_enqueue_scripts', 'now_register_scripts' );
-    // Cargar jquery
-        function cargar_jquery() { if (!wp_script_is('jquery', 'enqueued')) { wp_enqueue_script('jquery'); }}
-        add_action('wp_enqueue_scripts', 'cargar_jquery');
+        function splidejs() {
+		wp_enqueue_script( 'splidejs', get_stylesheet_directory_uri() . '/assets/js/splide-min.js',array(), '4.1.3');
+		wp_enqueue_style('splidecss', get_stylesheet_directory_uri() . '/assets/css/splide-min.css', array(), '4.1.3');
+	    }
+        add_action( 'wp_enqueue_scripts', 'splidejs' );
     // Menú clásico de WordPress
         function child_theme_setup() {
             register_nav_menus(array(
@@ -126,7 +119,7 @@
         );
     }
     add_action('init', 'custom_post_type_comercios');
-
+    add_post_type_support('comercios', 'thumbnail');
 /*******************************************************************************
  * CORREO CUANDO SE PUBLICA EL COMERCIO
  ******************************************************************************/
@@ -204,7 +197,7 @@
 
             // Si no se encuentra el email del comercio, salimos de la función
             if (empty($email_comercio)) return;
-
+                           
             // Preparar el correo al comercio
             $to = $email_comercio;
             $subject = 'Negocio adoptado';
@@ -212,8 +205,8 @@
                 <div style='text-align: left;margin: 20px auto;width: 80%;max-width: 600px;padding: 20px;border-radius: 5px;'>
                 <img src='https://adoptauncomercio.com/wp-content/uploads/2024/11/Recurso-6assets.png' alt='Logo' style='width: 250px;height: 100px;margin:2rem auto;display: block;'>
                 <h2>¡Tú negocio ha sido adoptado por {$user_info->user_login}!</h2>
-                <p>¿Qué pasa ahora? {$user_info->user_login} se va a encargar de dar voz a tu negocio y todo lo que necesita. Le hemos mandado tus datos, para que pueda ponerse en contacto contigo y así pueda informar a su comunidad sobre los avances en tu local.</p>
-                <p>A partir de hoy ¡sois un equipo! Y es que ya se ha demostrado que, trabajando de la mano, llegamos más lejos.</p>
+                <p>¿Qué pasa ahora? {$user_info->user_login} se va a encargar de dar voz a tu negocio y todo lo que necesita. Ya puede ponerse en contacto contigo y así informar a su comunidad sobre los avances en tu local. </p>
+                <p>A partir de hoy ¡sois un equipo! Y es que ya se ha demostrado que, trabajando de la mano, llegamos más lejos. </p>
                 <p>No olvides compartir en tus redes sociales lo que tu influencer suba ¡así llegará a más personas y quien está al otro lado de la pantalla podrá seguirlo todo de cerca!</p>
                 <p>¡Un abrazo!</p>
                     <table style='background-color:#232323;color:#ffffff;margin-top:3rem;padding:2rem 1rem; font-size:0.8rem;width:100%'>
@@ -246,7 +239,7 @@
                     <div style='text-align: left;margin: 20px auto;width: 80%;max-width: 600px;padding: 20px;border-radius: 5px;'>
                     <img src='https://adoptauncomercio.com/wp-content/uploads/2024/11/Recurso-6assets.png' alt='Logo' style='width: 250px;height: 100px;margin:2rem auto;display: block;'>
                     <h2>¡ENHORABUENA! Tu solicitud se ha confirmado.</h2>
-                    Te confirmamos que has adoptado a <b> $negocio </b> ¡ya puedes empezar a difundir y ayudar a tu comercio!
+                    <p>Te confirmamos que has adoptado a <b> $negocio </b> ¡ya puedes empezar a difundir y ayudar a tu comercio! Solo tienes que poner su nombre en el buscador de la web y verás toda su información.</p>	
                     <p>Gracias por apoyar a un comercio local. Ahora tú y el negocio sois un equipo.</p>
                     <p>Muchísimas gracias por apoyar esta inciativa.</p>
                     <p>Volvemos a demostrar que en equipo vamos a llegar muy lejos</p>
@@ -279,9 +272,7 @@
 
 
 
-/*******************************************************************************
- * SEGUNDA IMAGEN DEL COMERCIO
- ******************************************************************************/
+
     // Añadir meta box para la imagen secundaria en el editor de WordPress
     /*function agregar_meta_box_img_2() {
         add_meta_box(
@@ -384,30 +375,17 @@
         }
     }
     add_action('manage_media_custom_column', 'mostrar_post_vinculado', 10, 2);
-
-
-
-/*******************************************************************************
- * CARGAR MÁS COMERCIOS EN EL TEMPLATE
- ******************************************************************************/
-    add_action( 'wp_enqueue_scripts', 'cxc_theme_enqueue_script_style' );
-    function cxc_theme_enqueue_script_style() {
-        wp_enqueue_script( 'load-more-script', get_stylesheet_directory_uri(). '/assets/js/load-more-post.js', array('jquery') );
-        // Localize the script with new data
-        wp_localize_script( 'load-more-script', 'ajax_posts', array(
-            'ajaxurl' => admin_url( 'admin-ajax.php' ),
-            'noposts' => __( 'No older posts found', 'cxc-codexcoach' ),
-        ));
-    }
     add_action( 'wp_ajax_nopriv_codex_load_more_post_ajax', 'codex_load_more_post_ajax_call_back' );
     add_action( 'wp_ajax_codex_load_more_post_ajax', 'codex_load_more_post_ajax_call_back' );
     function codex_load_more_post_ajax_call_back($page_id){
-        $posts_per_page = isset($_POST["posts_per_page"]) ? intval($_POST["posts_per_page"]) : 5;
-        $page = isset($_POST['pageNumber']) ? intval($_POST['pageNumber']) : 2;
-        //$page_id = isset($_POST['page_id']) ? intval($_POST['page_id']) : 0; // Obtenemos el ID de la página
+        $posts_per_page = isset($_GET["posts_per_page"]) ? intval($_GET["posts_per_page"]) : 5;
+        $page = isset($_GET['pageNumber']) ? intval($_GET['pageNumber']) : 2;
+        $search_city = $_GET['search_city'] ?? '';
         $page_id = get_queried_object_id();
+        
         // Verificar si el ID de la página es correcto
         error_log("ID de la página recibido: " . $page_id);
+
         $args = array(
             'post_type' => 'comercios',
             'orderby' => 'date',
@@ -416,8 +394,20 @@
             'post_status' => 'publish',
             'paged' => $page,
         );
+
+        // Filtro por ciudad
+        if (!empty($search_city)) {
+            $args['meta_query'] = array(
+                array(
+                    'key' => 'comerce_data_city',
+                    'value' => $search_city,
+                    'compare' => 'LIKE'
+                )
+            );
+        }
+
+        // Filtro por categoría según el ID de página
         if ($page_id == 127) {
-            // Excluir los posts con las categorías "adoptado" y "adoptado_void"
             $args['tax_query'] = array(
                 array(
                     'taxonomy' => 'comercio_categoria',
@@ -427,7 +417,6 @@
                 ),
             );
         } elseif ($page_id == 121) {
-            // Mostrar solo los posts con las categorías "adoptado" o "adoptado_void"
             $args['tax_query'] = array(
                 array(
                     'taxonomy' => 'comercio_categoria',
@@ -437,10 +426,11 @@
                 ),
             );
         }
-            $the_query = new WP_Query( $args );
-            $html = '';
-            ob_start();
-            if ( $the_query->have_posts() ) {
+
+        $the_query = new WP_Query($args);
+        $html = '';
+        ob_start();
+        if ($the_query->have_posts()) {
                 while ( $the_query->have_posts()) { $the_query->the_post();
                     $id_post = get_the_ID();
                     $data = get_field('comerce_data', $id_post);
@@ -635,28 +625,27 @@
 /*******************************************************************************
  * APIS
  ******************************************************************************/
-
-    // API para obtener los usuarios suscriptores
+  // API para obtener los usuarios suscriptores
         function obtener_usuarios_suscriptores() {
-        // Verificar permisos (opcional)
-        if (!current_user_can('manage_options')) {
-            return new WP_Error('permiso_denegado', 'No tienes permisos para acceder a esta información.', array('status' => 403));
-        }
-        // Obtener los usuarios con el rol 'subscriber'
-        $usuarios = get_users(array(
-            'role' => 'subscriber'
-        ));
-        // Crear el array de respuesta
-        $datos_usuarios = array();
-        foreach ($usuarios as $usuario) {
-            $datos_usuarios[] = array(
-                'ID' => $usuario->ID,
-                'username' => $usuario->user_login,
-                'email' => $usuario->user_email,
-                'nombre' => $usuario->display_name,
-            );
-        }
-        return rest_ensure_response($datos_usuarios);
+            // Verificar permisos (opcional)
+            if (!current_user_can('manage_options')) {
+                return new WP_Error('permiso_denegado', 'No tienes permisos para acceder a esta información.', array('status' => 403));
+            }
+            // Obtener los usuarios con el rol 'subscriber'
+            $usuarios = get_users(array(
+                'role' => 'subscriber'
+            ));
+            // Crear el array de respuesta
+            $datos_usuarios = array();
+            foreach ($usuarios as $usuario) {
+                $datos_usuarios[] = array(
+                    'ID' => $usuario->ID,
+                    'username' => $usuario->user_login,
+                    'email' => $usuario->user_email,
+                    'nombre' => $usuario->display_name,
+                );
+            }
+            return rest_ensure_response($datos_usuarios);
         }
     // Registrar la API
         function registrar_api_usuarios_suscriptores() {
@@ -667,3 +656,26 @@
             ));
         }
         add_action('rest_api_init', 'registrar_api_usuarios_suscriptores');
+
+/*******************************************************************************
+ * BUSCADOR POR CIUDAD
+ ******************************************************************************/
+    add_action('pre_get_posts', 'filtrar_comercios_por_ciudad');
+    function filtrar_comercios_por_ciudad($query) {
+        // Verificamos que estamos en la query principal y en el archivo de archivo de comercios
+        if (!is_admin() && $query->is_main_query() && is_post_type_archive('comercios')) {
+            
+            // Verificamos si existe el parámetro de búsqueda por ciudad
+            if (!empty($_GET['search_city'])) {
+                $city = sanitize_text_field($_GET['search_city']);
+                // Añadimos la meta query para el subfield 'city' dentro del grupo 'comerce_data'
+                $query->set('meta_query', [
+                    [
+                        'key'     => 'comerce_data_city', // Nombre del campo en ACF (combinación de grupo y subcampo)
+                        'value'   => $city,
+                        'compare' => 'LIKE',
+                    ]
+                ]);
+            }
+        }
+    }

@@ -5,14 +5,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?php bloginfo( 'name' ); ?></title>
 	<?php wp_head(); ?>
-	<!-- Google tag (gtag.js) 
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-GTKGPXZPZG"></script>-->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-GTKGPXZPZG');
-</script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-GTKGPXZPZG"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-GTKGPXZPZG');
+	</script>
 </head>
 <body <?php body_class(''); ?>>
 	<?php wp_body_open(); ?>

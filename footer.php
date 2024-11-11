@@ -15,7 +15,10 @@
                 </div>
             </div>
             <div class="contain 2xl:max-w-5xl mb-8 flex flex-row flex-wrap justify-center gap-12 mx-auto my-8">
-                <p class="text-xs text-white text-center">SIBERIA, promotora de la plataforma ADOPTA UN COMERCIO, única y exclusivamente pone en contacto a los posibles afectados con los diferentes influencers que están tratando de dar visibilidad a los afectados y/o ayudarlos, por tanto cualquier ayuda que se reciba se deberá ingresar o entregar directamente a los afectados.</p>
+                <div>
+                    <p class="text-xs text-white text-center">SIBERIA, promotora de la plataforma ADOPTA UN COMERCIO, única y exclusivamente pone en contacto a los posibles afectados con los diferentes influencers que están tratando de dar visibilidad a los afectados y/o ayudarlos, por tanto cualquier ayuda que se reciba se deberá ingresar o entregar directamente a los afectados.</p>
+                    <p class="text-xs text-white text-center">En el supuesto de que el beneficiario reciba una ayuda económica de un tercero (ya sea una entidad pública, privada o particular) destinada a mitigar o compensar los daños sufridos por la DANA, el beneficiario asume de forma expresa la obligación de cumplir con las obligaciones tributarias que correspondan. Esto incluye, pero no se limita, al cumplimiento de los deberes fiscales en materia de impuestos sobre la renta, patrimonio u otros tributos aplicables, conforme a la legislación vigente. El beneficiario declara estar informado de que dicha ayuda económica puede constituir una ganancia patrimonial o renta imponible sujeta a tributación y que será responsable de realizar las declaraciones y pagos que correspondan ante las autoridades fiscales competentes.</p>
+                </div>
             </div>
             <hr class="contain 2xl:max-w-7xl mx-auto my-8">
             <nav class="contain 2xl:max-w-7xl mx-auto my-8 flex flex-row flex-wrap justify-center gap-3 text-white">
