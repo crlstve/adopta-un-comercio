@@ -4,7 +4,7 @@
     include_once get_template_directory() . '/inc/user-form.php'; 
 ?>
     
-    <section class="w-full flex flex-col gap-4 mt-10 md:mt-16 md:px-16 ">
+    <section class="w-full flex flex-col gap-4 mt-10 md:mt-16 mb-10 md:mt-0 md:px-16 ">
         <p class="text-center font-semibold"><?php esc_html_e('Una iniciativa solidaria, liderada por influencers y otros rostros conocidos, para visibilizar y recaudar ayuda destinada a los comercios locales que lo han perdido todo por la DANA.', 'adopta'); ?></p>
         <p class="text-orange text-center font-semibold" ><?php esc_html_e('Importante: cuando un comercio aparece señalado como "adoptado", no implica que haya recibido todavía lo que necesita, sino que el influencer responsable de ese negocio ya ha compartido, a través de sus redes sociales, la petición de ayuda.', 'adopta'); ?></p> 
 
