@@ -11,21 +11,20 @@
 /*******************************************************************************
  *  CARGA DE ESTILOS Y SCRIPTS
  ******************************************************************************/
-    // Cargar estilos de Tailwindcss
-        function tailwind_css() {
+    // Cargar estilos
+        function register_styles() {
             wp_enqueue_style('tailwindcss', get_stylesheet_directory_uri() . '/assets/css/theme.css', array(), '1.0', 'all');
+            wp_enqueue_style('splidecss', get_stylesheet_directory_uri() . '/assets/css/splide-min.css', array(), '4.1.3');
+            wp_script_add_data( 'splidecss', 'defer', true );
         }
-        add_action('wp_enqueue_scripts', 'tailwind_css');        
+        add_action('wp_enqueue_scripts', 'register_styles');        
     // Cargar js
-        function now_register_scripts() {
+        function register_scripts() {
             wp_enqueue_script( 'toggle-forms', get_stylesheet_directory_uri() . '/assets/js/toggle-forms.js', array(), '1.0', false );
+            wp_enqueue_script( 'splidejs', get_stylesheet_directory_uri() . '/assets/js/splide-min.js', array(), '4.1.3');
+            wp_script_add_data( 'splidejs', 'defer', true );
         }
-        add_action( 'wp_enqueue_scripts', 'now_register_scripts' );
-        function splidejs() {
-		wp_enqueue_script( 'splidejs', get_stylesheet_directory_uri() . '/assets/js/splide-min.js',array(), '4.1.3');
-		wp_enqueue_style('splidecss', get_stylesheet_directory_uri() . '/assets/css/splide-min.css', array(), '4.1.3');
-	    }
-        add_action( 'wp_enqueue_scripts', 'splidejs' );
+        add_action( 'wp_enqueue_scripts', 'register_scripts' );
     // Menú clásico de WordPress
         function child_theme_setup() {
             register_nav_menus(array(
