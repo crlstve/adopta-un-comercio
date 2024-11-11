@@ -13,23 +13,33 @@
         </nav>
         <div class="py-6">
             <h2 class="font-bold text-lg text-center mb-3">Filtrar por categoría</h2>
-            <ul class="flex flex-row flex-wrap w-full gap-6 justify-center">
-                    <?php 
-                        $categorias = get_terms([
-                            'taxonomy' => 'comercio_etiqueta',
-                            'hide_empty' => true,
-                        ]);
-                        if (!is_wp_error($categorias) && !empty($categorias)):
-                            foreach ($categorias as $categoria): 
-                                $url = get_term_link($categoria);
-                    ?>
-                        <li class="text-dark bg-orange px-6 py-3"><a href="<?= esc_url($url);  ?>"><?=esc_html($categoria->name)?></a></li>          
-                    <?php   endforeach;
-                        else:
-                            echo 'No se encontraron categorías en la taxonomía comercio_etiqueta.';
-                        endif;
-                    ?>
-            </ul>
+            <div class="splide">
+                <div class="splide__track">
+                    <?php if(wp_is_mobile()): ?> 
+                        <ul class="splide__list">
+                    <?php else: ?>
+                        <ul class="flex flex-row flex-wrap w-full gap-6 justify-center">
+                    <?php endif; ?>
+                        <?php 
+                            $categorias = get_terms([ 'taxonomy' => 'comercio_etiqueta', 'hide_empty' => true, ]);
+                            if (!is_wp_error($categorias) && !empty($categorias)):
+                                foreach ($categorias as $categoria): 
+                                    $url = get_term_link($categoria);
+                        ?>
+                            <?php if(wp_is_mobile()): ?>
+                                <li class="splide__slide text-dark bg-orange py-3 text-center self-center">
+                            <?php else: ?>
+                                <li class="text-dark bg-orange px-6 py-3">
+                            <?php endif; ?>
+                                <a href="<?= esc_url($url);  ?>"><?=esc_html($categoria->name)?></a></li>          
+                        <?php   endforeach;
+                            else:
+                                echo 'No se encontraron categorías en la taxonomía comercio_etiqueta.';
+                            endif;
+                        ?>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="w-full flex flex-col md:flex-row justify-center gap-4">
             <form class="flex flex-row justify-center gap-0" role="search" method="get" id="searchform" action="<?php echo home_url('/'); ?>">

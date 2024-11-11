@@ -14,15 +14,22 @@
     // Cargar estilos
         function register_styles() {
             wp_enqueue_style('tailwindcss', get_stylesheet_directory_uri() . '/assets/css/theme.css', array(), '1.0', 'all');
-            wp_enqueue_style('splidecss', get_stylesheet_directory_uri() . '/assets/css/splide-min.css', array(), '4.1.3');
-            wp_script_add_data( 'splidecss', 'defer', true );
+            if(wp_is_mobile()){
+                wp_enqueue_style('splidecss', get_stylesheet_directory_uri() . '/assets/css/splide.min.css', array(), '4.1.3');
+                wp_script_add_data( 'splidecss', 'defer', true );
+            }
         }
         add_action('wp_enqueue_scripts', 'register_styles');        
     // Cargar js
         function register_scripts() {
-            wp_enqueue_script( 'toggle-forms', get_stylesheet_directory_uri() . '/assets/js/toggle-forms.js', array(), '1.0', false );
-            wp_enqueue_script( 'splidejs', get_stylesheet_directory_uri() . '/assets/js/splide-min.js', array(), '4.1.3');
-            wp_script_add_data( 'splidejs', 'defer', true );
+            if(!is_archive() || !is_tax()){
+                wp_enqueue_script( 'toggle-forms', get_stylesheet_directory_uri() . '/assets/js/toggle-forms.js', array(), '1.0', false );
+            }        
+            if(wp_is_mobile()){
+                wp_enqueue_script( 'splidejs', get_stylesheet_directory_uri() . '/assets/js/splide.min.js', array(), '4.1.3');
+                wp_enqueue_script( 'filter-slider', get_stylesheet_directory_uri() . '/assets/js/filter-slider.js', array(), '4.1.3');
+                wp_script_add_data( 'splidejs', 'defer', true );        
+            }
         }
         add_action( 'wp_enqueue_scripts', 'register_scripts' );
     // Menú clásico de WordPress
@@ -269,90 +276,6 @@
     }
     add_action('save_post', 'enviar_correo_post_adoptado', 10, 3);
 
-
-
-
-    // Añadir meta box para la imagen secundaria en el editor de WordPress
-    /*function agregar_meta_box_img_2() {
-        add_meta_box(
-            'img_2_meta_box',
-            'Imagen Secundaria',
-            'mostrar_meta_box_img_2',
-            'comercios',
-            'side'
-        );
-    }
-    add_action('add_meta_boxes', 'agregar_meta_box_img_2');
-    function mostrar_meta_box_img_2($post) {
-        $img_2_id = get_post_meta($post->ID, 'img_2', true);
-        $img_2_url = $img_2_id ? wp_get_attachment_url($img_2_id) : '';
-
-        echo '<div id="img_2_preview">';
-        if ($img_2_url) {
-            echo '<img src="' . esc_url($img_2_url) . '" style="max-width:100%; height:auto;" />';
-        }
-        echo '</div>';
-        echo '<input type="hidden" id="img_2_id" name="img_2_id" value="' . esc_attr($img_2_id) . '" />';
-        echo '<button type="button" class="button" id="select_img_2_button">' . __('Seleccionar Imagen Secundaria') . '</button>';
-        echo '<button type="button" class="button" id="remove_img_2_button" style="display:' . ($img_2_url ? 'inline-block' : 'none') . ';">' . __('Eliminar Imagen') . '</button>';
-    }
-    function guardar_imagen_secundaria($post_id) {
-        if (isset($_POST['img_2'])) {
-            update_post_meta($post_id, 'img_2', sanitize_text_field($_POST['img_2']));
-        } else {
-            delete_post_meta($post_id, 'img_2');
-        }
-    }
-    add_action('save_post', 'guardar_imagen_secundaria');
-
-    function cargar_scripts_imagen_secundaria() {
-        global $post_type;
-        if ($post_type == 'comercios') {
-            wp_enqueue_media();
-            ?>
-            <script>
-            jQuery(document).ready(function($) {
-                var mediaUploader;
-
-                $('#select_img_2_button').on('click', function(e) {
-                    e.preventDefault();
-                    if (mediaUploader) {
-                        mediaUploader.open();
-                        return;
-                    }
-
-                    mediaUploader = wp.media({
-                        title: 'Seleccionar Imagen Secundaria',
-                        button: {
-                            text: 'Usar esta imagen'
-                        },
-                        multiple: false
-                    });
-
-                    mediaUploader.on('select', function() {
-                        var attachment = mediaUploader.state().get('selection').first().toJSON();
-                        $('#img_2_id').val(attachment.id);
-                        $('#img_2_preview').html('<img src="' + attachment.sizes.medium.url + '" style="max-width: 100%; height: auto;" />');
-                        $('#select_img_2_button').hide();
-                        $('#remove_img_2_button').show();
-                    });
-
-                    mediaUploader.open();
-                });
-
-                $('#remove_img_2_button').on('click', function(e) {
-                    e.preventDefault();
-                    $('#img_2_id').val('');
-                    $('#img_2_preview').html('');
-                    $('#select_img_2_button').show();
-                    $('#remove_img_2_button').hide();
-                });
-            });
-            </script>
-            <?php
-        }
-    }
-    add_action('admin_footer', 'cargar_scripts_imagen_secundaria');*/
     // Añade una columna personalizada para mostrar el post vinculado
     function agregar_columna_post_vinculado($columns) {
         $columns['attached_post'] = 'Post Vinculado';

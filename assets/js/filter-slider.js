@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded', function () { new Splide('.splide', { gap: 16, perPage: 4, perMove: 1, type: 'slide', preloadPages: 1, arrows: false, pagination: false, rewind: true, breakpoints: { 600: { perPage: 3, }, } }).mount(); });
