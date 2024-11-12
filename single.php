@@ -20,7 +20,7 @@
                         foreach ($user_ids as $user_id) { 
                             $user_info = get_userdata($user_id); 
                             if ($user_info) { 
-                                $user_name[] = $user_info->user_nicename; 
+                                $user_name[] = $user_info->nickname; 
                             } 
                         } $user_rrss = implode(', ', $user_name); 
                     }
