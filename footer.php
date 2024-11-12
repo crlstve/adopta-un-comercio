@@ -28,7 +28,7 @@
                 <span class="text-sm text-white">|</span>
                 <a href="<?= esc_url('https://siberia.es/politica-de-cookies/')?>" target="_blank" class="text-sm self-center">POLÍTICA DE COOKIES</a>
             </nav>
-            <script>console.log('Gracias por interesarte. => https://carlesteve.dev/');</script>
+            <script>console.log('Gracias por tu interés.\nhttps://carlesteve.dev/\n%cc.esteve','color: #6ee7b7;');</script>
         </footer>
     </body>
 </html>
