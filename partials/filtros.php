@@ -1,4 +1,4 @@
-    <section class="w-full md:w-4/5 mx-auto mb-12 flex flex-col gap-4 md:gap-12 md:mt-16">
+<section class="w-full md:w-4/5 mx-auto mb-12 flex flex-col gap-4 md:gap-12 md:mt-16">
         <nav>
             <?php 
                 $args = array(
@@ -11,37 +11,44 @@
                 wp_nav_menu($args); 
             ?>
         </nav>
-        <div class="py-6">
-            <h2 class="font-bold text-lg text-center mb-3">Filtrar por categoría</h2>
-            <div class="splide">
-                <div class="splide__track">
+
+        <div class="w-full flex flex-col md:flex-row justify-center gap-4">
+        <div class="splide">
+                <div class="splide__track dropdown relative">
                     <?php if(wp_is_mobile()): ?> 
                         <ul class="splide__list">
                     <?php else: ?>
-                        <ul class="flex flex-row flex-wrap w-full gap-6 justify-center">
+                        <button onclick="toggleDropdown()" class="dropdown-button flex justify-center w-full md:w-fit bg-dark text py-3 px-6 white">
+                            Categorías
+                        </button>
+                        <script>
+                            function toggleDropdown() {
+                                const dropdownMenu = document.getElementById('dropdown-menu');
+                                dropdownMenu.classList.toggle('hidden');
+                            }
+                        </script>
+                        <ul id="dropdown-menu" class="dropdown-menu absolute hidden flex flex-col w-full gap-2">
                     <?php endif; ?>
-                        <?php 
-                            $categorias = get_terms([ 'taxonomy' => 'comercio_etiqueta', 'hide_empty' => true, ]);
-                            if (!is_wp_error($categorias) && !empty($categorias)):
-                                foreach ($categorias as $categoria): 
-                                    $url = get_term_link($categoria);
-                        ?>
-                            <?php if(wp_is_mobile()): ?>
-                                <li class="splide__slide text-dark bg-orange py-3 text-center self-center">
-                            <?php else: ?>
-                                <li class="text-dark bg-orange px-6 py-3">
-                            <?php endif; ?>
-                                <a href="<?= esc_url($url);  ?>"><?=esc_html($categoria->name)?></a></li>          
-                        <?php   endforeach;
-                            else:
-                                echo 'No se encontraron categorías en la taxonomía comercio_etiqueta.';
-                            endif;
-                        ?>
-                    </ul>
+                            <?php 
+                                $categorias = get_terms([ 'taxonomy' => 'comercio_etiqueta', 'hide_empty' => true, ]);
+                                if (!is_wp_error($categorias) && !empty($categorias)):
+                                    foreach ($categorias as $categoria): 
+                                        $url = get_term_link($categoria);
+                            ?>
+                                    <li class="splide__slide text-dark py-3 text-center self-center">
+                                        <a href="<?= esc_url($url);  ?>"><?=esc_html($categoria->name)?></a>
+                                    </li>                                                            
+                            <?php   endforeach;
+                                else:
+                                    echo 'No se encontraron categorías en la taxonomía comercio_etiqueta.';
+                                endif;
+                            ?>
+                        </ul>
                 </div>
             </div>
-        </div>
-        <div class="w-full flex flex-col md:flex-row justify-center gap-4">
+
+
+
             <form class="flex flex-row justify-center gap-0" role="search" method="get" id="searchform" action="<?php echo home_url('/'); ?>">
                 <input type="hidden" name="post_type" value="comercios" />
                 <input class="border border-1 border-black w-1/2 md:w-full" type="text" value="<?php echo get_search_query(); ?>" name="s" id="s" placeholder="Buscar un comercio" />
@@ -58,3 +65,7 @@
             <?php endif; ?>
         </div>
     </section>
+
+    <style>
+  
+    </style>
