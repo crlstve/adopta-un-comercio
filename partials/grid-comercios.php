@@ -235,7 +235,7 @@
                                 <?php endif; ?>
 
                                 <div class="w-full flex flex-row gap-3 justify-between">
-                                <?php if(!has_term(['adoptado', 'adoptado_void'], 'comercio_categoria', $post)):?>
+                                <?php if(!has_term(['adoptado', 'adoptado_void', 'reservado'], 'comercio_categoria', $post)):?>
                                     <button onclick="modal_form(<?php echo $id_post ?>, '<?php the_title(); ?>');" class="bg-orange text-dark py-3 px-6 w-fit">
                                         <?php esc_html_e('Adopta este comercio','adopta'); ?>
                                     </button>

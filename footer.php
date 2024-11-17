@@ -39,18 +39,11 @@
                         let modal = document.getElementById('modal_form');
                         let comercio = document.getElementById('comercio-modal');
                         modal.classList.remove('hidden');
-                        console.log(comercio);
                         document.getElementById('title-form').innerHTML = title;
-                            // Espera un pequeño momento antes de actualizar el valor
-                        setTimeout(() => {
-                            let comercio = document.getElementById('comercio-modal');
-                            if (comercio) {
-                                comercio.value = id;
-                                console.log(`Valor del input 'comercio-modal' actualizado a: ${comercio.value}`);
-                            } else {
-                                console.log("No se encontró el input 'comercio-modal'");
-                            }
-                        }, 50); // Puedes ajustar el tiempo si es necesario
+                        comercio.value = id;
+                        console.log(comercio);
+
+                    
                     }
                     function close_modal(){
                         let modal = document.getElementById('modal_form');
