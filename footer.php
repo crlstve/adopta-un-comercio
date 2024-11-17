@@ -28,7 +28,37 @@
                 <span class="text-sm text-white">|</span>
                 <a href="<?= esc_url('https://siberia.es/politica-de-cookies/')?>" target="_blank" class="text-sm self-center">POLÍTICA DE COOKIES</a>
             </nav>
+            <script>
+                    function copyToClipboard(text) {
+                        navigator.clipboard.writeText(text).then(() => {
+                            alert('¡Enlace copiado!');            
+                        });
+                        console.log(text);
+                    }
+                    function modal_form(id, title){
+                        let modal = document.getElementById('modal_form');
+                        let comercio = document.getElementById('comercio-modal');
+                        modal.classList.remove('hidden');
+                        console.log(comercio);
+                        document.getElementById('title-form').innerHTML = title;
+                            // Espera un pequeño momento antes de actualizar el valor
+                        setTimeout(() => {
+                            let comercio = document.getElementById('comercio-modal');
+                            if (comercio) {
+                                comercio.value = id;
+                                console.log(`Valor del input 'comercio-modal' actualizado a: ${comercio.value}`);
+                            } else {
+                                console.log("No se encontró el input 'comercio-modal'");
+                            }
+                        }, 50); // Puedes ajustar el tiempo si es necesario
+                    }
+                    function close_modal(){
+                        let modal = document.getElementById('modal_form');
+                        modal.classList.add('hidden');
+                    }
+            </script>
             <script>console.log('Gracias por tu interés.\nhttps://carlesteve.dev/\n%cc.esteve','color: #6ee7b7;');</script>
+
         </footer>
     </body>
 </html>

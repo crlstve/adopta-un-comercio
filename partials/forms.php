@@ -11,8 +11,8 @@
         <div id="forms" class="w-full flex flex-row flex-wrap justify-center gap-24 md:gap-12 mx-auto my-12 md:my-24">
             <div class="w-full md:w-2/5 bg-orange py-12 px-6 h-fit relative">
                     <header class="mx-auto text-center mb-6">
-                        <h1 class="text-3xl font-bold mx-auto"><?= esc_html_e('ADOPTA UN COMERCIO','adopta'); ?></h1>
-                        <span class="mb-4 font-semibold mx-auto"><?= esc_html_e('SI ERES INFLUENCER','adopta'); ?></span>
+                        <h1 class="text-3xl font-bold mx-auto"><?php esc_html_e('ADOPTA UN COMERCIO','adopta'); ?></h1>
+                        <span class="mb-4 font-semibold mx-auto"><?php esc_html_e('SI ERES INFLUENCER','adopta'); ?></span>
                     </header>
                 <div class="h-0 hidden transition-all duration-500 ease-in-out" data-toggle="influencer">
                     <!-- Formulario para influencers -->
@@ -47,15 +47,15 @@
                             }
                             ?>
                         </select>
-                        <button type="submit" name="submit_usuario" class="bg-dark text-white w-full mx-auto py-3 px-6"><?= esc_html_e('Enviar','adopta'); ?></button>
+                        <button type="submit" name="submit_usuario" class="bg-dark text-white w-full mx-auto py-3 px-6"><?php esc_html_e('Enviar','adopta'); ?></button>
                     </form>
                 </div>
                 <button onclick="desplegable();" class="bg-dark aspect-video px-6 max-w-24 h-fit absolute bottom-0 right-0 left-0 mx-auto translate-y-full"><div class="rotate-90 text-white font-xl transition-all transform duration-500">></div></button>
             </div>
             <div class="w-full md:w-2/5 bg-pink py-12 px-6 h-fit relative">
                 <header class="mx-auto text-center mb-6">
-                    <h2 class="text-3xl font-bold mx-auto"><?= esc_html_e('INSCRÍBETE','adopta'); ?></h2>
-                    <span class="mb-4 font-semibold mx-auto"><?= esc_html_e('SI ERES UN COMERCIO AFECTADO','adopta'); ?></span>
+                    <h2 class="text-3xl font-bold mx-auto"><?php esc_html_e('INSCRÍBETE','adopta'); ?></h2>
+                    <span class="mb-4 font-semibold mx-auto"><?php esc_html_e('SI ERES UN COMERCIO AFECTADO','adopta'); ?></span>
                 </header>
                 <div class="h-0 hidden" data-toggle="comercio">
                     <!-- Formulario para enviar el comercio -->
@@ -104,12 +104,12 @@
                                     <input type="file" name="img_2" id="img_2" accept="image/*" required>
                                 </div>
                                 <!--button-->
-                                <button type="submit" class="bg-dark text-white w-full mx-auto py-3 px-6"><?= esc_html_e('Enviar','adopta'); ?></button>
+                                <button type="submit" class="bg-dark text-white w-full mx-auto py-3 px-6"><?php esc_html_e('Enviar','adopta'); ?></button>
                     </form>
                 </div>
                 <button onclick="desplegable_2();" class="bg-dark aspect-video px-6 max-w-24 h-fit absolute bottom-0 right-0 left-0 mx-auto translate-y-full"><div class="rotate-90 text-white font-xl transition-all transform duration-500">></div></button>
             </div>
         </div>
         <div id="gracias" class="hidden w-full flex flex-col gap-4 my-16 md:px-16 ">
-            <span>Gracias por colaborar. En breve nos pondremos en contacto contigo.</span>
+            <span><?php esc_html_e('Gracias por colaborar. En breve nos pondremos en contacto contigo.'); ?></span>
     </section>

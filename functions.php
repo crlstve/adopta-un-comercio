@@ -24,7 +24,7 @@
         function register_scripts() {
             if(!is_archive() || !is_tax()){
                 wp_enqueue_script( 'toggle-forms', get_stylesheet_directory_uri() . '/assets/js/toggle-forms.js', array(), '1.0', false );
-            }        
+            }     
             if(wp_is_mobile()){
                 wp_enqueue_script( 'splidejs', get_stylesheet_directory_uri() . '/assets/js/splide.min.js', array(), '4.1.3');
                 wp_enqueue_script( 'filter-slider', get_stylesheet_directory_uri() . '/assets/js/filter-slider.js', array(), '4.1.3');

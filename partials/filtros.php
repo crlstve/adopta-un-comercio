@@ -47,25 +47,15 @@
                 </div>
             </div>
 
-
-
             <form class="flex flex-row justify-center gap-0" role="search" method="get" id="searchform" action="<?php echo home_url('/'); ?>">
                 <input type="hidden" name="post_type" value="comercios" />
-                <input class="border border-1 border-black w-1/2 md:w-full" type="text" value="<?php echo get_search_query(); ?>" name="s" id="s" placeholder="Buscar un comercio" />
-                <button class="bg-dark text py-3 px-6 white" type="submit">Buscar</button>
+                <input class="border border-1 border-black w-1/2 md:w-full" type="text" value="<?php echo get_search_query(); ?>" name="s" id="s" placeholder="Buscar" />
+                <button class="bg-dark text py-3 px-6 white" type="submit"><?php esc_html_e('Buscar','adopta'); ?></button>
             </form>
 
-            <form class="flex flex-row justify-center gap-0" method="GET" action="">
-                <input class="border border-1 border-black w-1/2 md:w-full" type="text" name="search_city" placeholder="Buscar por ciudad">
-                <button class="bg-dark text py-3 px-6 white"type="submit">Buscar</button>
-            </form>
 
             <?php if(!is_front_page()): ?>
-                <a class="flex justify-center w-full md:w-fit bg-dark text py-3 px-6 white" href="<?= esc_url(home_url('/')); ?>">Volver</a>
+                <a class="flex justify-center w-full md:w-fit bg-dark text py-3 px-6 h-fit" href="<?= esc_url(home_url('/')); ?>">test</a>
             <?php endif; ?>
         </div>
     </section>
-
-    <style>
-  
-    </style>
