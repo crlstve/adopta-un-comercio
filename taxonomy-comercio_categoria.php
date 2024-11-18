@@ -6,5 +6,7 @@
 
         <?= get_template_part('partials/grid-comercios'); ?>
 
+        <?= get_template_part('partials/modal-form'); ?>
+
     </main>
 <?php get_footer(); ?>
