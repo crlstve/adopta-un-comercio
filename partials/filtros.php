@@ -13,11 +13,9 @@
         </nav>
 
         <div class="w-full flex flex-col md:flex-row justify-center gap-4">
-        <div class="splide">
-                <div class="splide__track dropdown relative">
-                    <?php if(wp_is_mobile()): ?> 
-                        <ul class="splide__list">
-                    <?php else: ?>
+        <div class="">
+                <div class=" dropdown relative">
+
                         <button onclick="toggleDropdown()" class="dropdown-button flex justify-center w-full md:w-fit bg-dark text py-3 px-6 white">
                             Categorías
                         </button>
@@ -28,14 +26,13 @@
                             }
                         </script>
                         <ul id="dropdown-menu" class="dropdown-menu absolute hidden flex flex-col w-full gap-2">
-                    <?php endif; ?>
                             <?php 
                                 $categorias = get_terms([ 'taxonomy' => 'comercio_etiqueta', 'hide_empty' => true, ]);
                                 if (!is_wp_error($categorias) && !empty($categorias)):
                                     foreach ($categorias as $categoria): 
                                         $url = get_term_link($categoria);
                             ?>
-                                    <li class="splide__slide text-dark py-3 text-center self-center">
+                                    <li class="text-dark py-3 text-center self-center">
                                         <a href="<?= esc_url($url);  ?>"><?=esc_html($categoria->name)?></a>
                                     </li>                                                            
                             <?php   endforeach;
@@ -55,7 +52,7 @@
 
 
             <?php if(!is_front_page()): ?>
-                <a class="flex justify-center w-full md:w-fit bg-dark text py-3 px-6 h-fit" href="<?= esc_url(home_url('/')); ?>">test</a>
+                <a class="flex justify-center w-full md:w-fit bg-dark text py-3 px-6 h-fit" href="<?= esc_url(home_url('/')); ?>"><?php esc_html_e('Volver','adopta'); ?></a>
             <?php endif; ?>
         </div>
     </section>
