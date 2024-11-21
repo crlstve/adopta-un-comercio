@@ -54,7 +54,7 @@
                     }
             </script>
             <script>console.log('Si has visto algún error o tienes alguna sugerencia,\npor favor, házmelo llegar. Gracias.\nhttps://carlesteve.dev/\n%cc.esteve','color: #6ee7b7;');</script>
-
+            
         </footer>
     </body>
 </html>
