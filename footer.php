@@ -1,6 +1,6 @@
         <footer class="w-full pb-6 bg-dark mt-12 md:mt-24">
             <section class="w-full py-8 flex flex-row justify-center mx-auto" style="background-color:#948781;">
-                    <a href="https://marinadeempresas.es/alcem-se/" target="_blank" rel="nofollow" class="flex justify-center w-fit"><img src="<?= get_stylesheet_directory_uri() . '/assets/images/marina-empresa.webp'; ?>" title="Alcem-se" alt="Marina de Empresas Alcem-se" class="w-full md:w-2/3 h-full" aspect-ratio="1080/607"></a>
+                <a href="https://marinadeempresas.es/alcem-se/" target="_blank" rel="nofollow" class="flex justify-center w-fit"><img src="<?= get_stylesheet_directory_uri() . '/assets/images/marina-empresa.webp'; ?>" title="Alcem-se" alt="Marina de Empresas Alcem-se" class="w-full md:w-2/3 h-full" aspect-ratio="1080/607"></a>
             </section>
             <div class="contain mt-12 mb-8 flex flex-row flex-wrap justify-center gap-12 mx-auto">
                 <div class="grid gird-cols-1 md:grid-cols-2 gap-8">
@@ -48,9 +48,7 @@
                         modal.classList.remove('hidden');
                         document.getElementById('title-form').innerHTML = title;
                         comercio.value = id;
-                        console.log(comercio);
-
-                    
+                        console.log(comercio);                    
                     }
                     function close_modal(){
                         let modal = document.getElementById('modal_form');
@@ -58,7 +56,6 @@
                     }
             </script>
             <script>console.log('Si has visto algún error o tienes alguna sugerencia,\npor favor, házmelo llegar. Gracias.\nhttps://carlesteve.dev/\n%cc.esteve','color: #6ee7b7;');</script>
-            
         </footer>
     </body>
 </html>
