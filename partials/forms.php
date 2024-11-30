@@ -112,4 +112,5 @@
         </div>
         <div id="gracias" class="hidden w-full flex flex-col gap-4 my-16 md:px-16 ">
             <span><?php esc_html_e('Gracias por colaborar. En breve nos pondremos en contacto contigo.'); ?></span>
+        </div>
     </section>

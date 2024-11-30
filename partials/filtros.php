@@ -3,7 +3,7 @@
             <?php 
                 $args = array(
                     'theme_location' => 'primary',
-                    'menu_class' => 'flex flex-col md:flex-row gap-4 md:gap-12 justify-around',
+                    'menu_class' => 'flex flex-col md:flex-row gap-4 justify-around',
                     'container' => false,
                     'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
                     'walker' => new Custom_Walker_Nav_Menu(), 
@@ -17,13 +17,14 @@
                 <div class=" dropdown relative">
 
                         <button onclick="toggleDropdown()" class="dropdown-button flex justify-center w-full md:w-fit bg-dark text py-3 px-6 white">
-                            Categorías
+                            <?php esc_html_e('Categorías','adopta'); ?>
                         </button>
                         <script>
                             function toggleDropdown() {
                                 const dropdownMenu = document.getElementById('dropdown-menu');
                                 dropdownMenu.classList.toggle('hidden');
                             }
+
                         </script>
                         <ul id="dropdown-menu" class="dropdown-menu absolute hidden flex flex-col w-full gap-2">
                             <?php 
@@ -32,9 +33,11 @@
                                     foreach ($categorias as $categoria): 
                                         $url = get_term_link($categoria);
                             ?>
-                                    <li class="text-dark py-3 text-center self-center">
-                                        <a href="<?= esc_url($url);  ?>"><?=esc_html($categoria->name)?></a>
-                                    </li>                                                            
+                                   <a href="<?= esc_url($url);  ?>" class="group hover:bg-gray-200 transition-all duration-300 ease-in-out">
+                                        <li class="text-dark py-3 text-center self-center">
+                                            <?=esc_html($categoria->name)?>
+                                        </li>
+                                    </a>                                                            
                             <?php   endforeach;
                                 else:
                                     echo 'No se encontraron categorías en la taxonomía comercio_etiqueta.';

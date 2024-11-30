@@ -112,9 +112,37 @@
                 </li>
             <?php endwhile; ?>
         </ul>
+        <div class="pagination">
+            <?php
+                $big = 999999999; // Necesario para obtener correctamente el enlace de la paginación
+                $pagination_args = array(
+                    'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
+                    'format' => '?paged=%#%',
+                    'total' => $wp_query->max_num_pages, // Usa el objeto global de consulta
+                    'current' => max(1, get_query_var('paged')),
+                    'show_all' => false,
+                    'prev_text' => __('&laquo; Anterior', 'adopta'),
+                    'next_text' => __('Siguiente &raquo;', 'adopta'),
+                    'type' => 'list',
+                    'before_page_number' => '<span class="page-num">', // Personalización
+                    'after_page_number' => '</span>',
+                );
+
+                // Genera los enlaces de paginación
+                $pagination_links = paginate_links($pagination_args);
+
+                // Personaliza las clases CSS si es necesario
+                    if (isset($pagination_links)) {
+                        $pagination_links = str_replace('<ul class="page-numbers">', '<ul class="page-numbers ">', $pagination_links);
+                        $pagination_links = str_replace('page-numbers', 'flex flex-row flex-wrap justify-center gap-6', $pagination_links); 
+                        echo $pagination_links;
+                    }                  
+            ?>
+        </div>
     <?php else : ?>
         <p class="text-center mt-10 md:mt-16"><?php esc_html_e('No se ha encontrado ningún comercio', 'adopta'); ?></p>
     <?php endif; ?>
 </section>
+        <?= get_template_part('partials/modal-form'); ?>
 </main>
 <?php get_footer(); ?>

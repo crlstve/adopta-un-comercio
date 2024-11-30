@@ -14,15 +14,11 @@
     // Cargar estilos
         function register_styles() {
             wp_enqueue_style('tailwindcss', get_stylesheet_directory_uri() . '/assets/css/theme.css', array(), '1.0', 'all');
-            if(wp_is_mobile()){
-                wp_enqueue_style('splidecss', get_stylesheet_directory_uri() . '/assets/css/splide.min.css', array(), '4.1.3');
-                wp_script_add_data( 'splidecss', 'defer', true );
-            }
         }
         add_action('wp_enqueue_scripts', 'register_styles');        
     // Cargar js
         function register_scripts() {
-            if(!is_archive() || !is_tax()){
+            if(!is_archive() || !is_tax() || !is_search()){
                 wp_enqueue_script( 'toggle-forms', get_stylesheet_directory_uri() . '/assets/js/toggle-forms.js', array(), '1.0', false );
             }     
             if(wp_is_mobile()){
@@ -42,30 +38,14 @@
     // Personalización del Wawlker para el Menú
         class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
             public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
-                $classes = 'text-base md:text-lg text-gray-400 hover:text-black text-base md:text-xl';
-                $output .= sprintf('<li class="border border-1 border-black py-2 px-4 text-center"><a href="%s" class="%s">%s</a></li>',
+                $classes = 'text-gray-400 hover:text-black text-base md:text-xl px-6 py-3 w-full';
+                $output .= sprintf('<li class="border border-1 border-black text-center flex"><a href="%s" class="%s">%s</a></li>',
                     esc_url($item->url),
                     esc_attr($classes),
                     esc_html($item->title)
                 );
             }
         }
-    //  Buscador de Comercios
-        function custom_search_only_titles($query) {
-            if (!is_admin() && $query->is_main_query() && $query->is_search()) {
-                $query->set('post_type', 'comercios'); // Filtra al CPT `comercios`
-                add_filter('posts_search', function($search, $wp_query) {
-                    global $wpdb;
-                    if ($wp_query->is_search()) {
-                        $search_term = esc_sql($wp_query->query_vars['s']);
-                        $search = "AND ({$wpdb->posts}.post_title LIKE '%{$search_term}%')";
-                    }
-                    return $search;
-                }, 10, 2);
-            }
-        }
-        add_action('pre_get_posts', 'custom_search_only_titles');
-
 /*******************************************************************************
  *  COMERCIOS
  ******************************************************************************/
@@ -179,7 +159,7 @@
         if ($post->post_status !== 'publish') return; // Asegurarse de que el post esté publicado
 
         // Verificar si el post tiene la categoría 'adoptado'
-        if (has_term('adoptado', 'comercio_categoria', $post)) {
+        if (has_term('adoptado', 'comercio_categoria', $post)&&!has_term('abierto','comercio_categoria', $post)) {
             // Obtener el campo de email de ACF dentro del grupo 'comerce_data'
             $email_comercio = get_field('comerce_data_email', $post_id);
 
@@ -543,61 +523,3 @@
                     $query->set('orderby', 'meta_value');
                 }
             }
-
-/*******************************************************************************
- * APIS
- ******************************************************************************/
-  // API para obtener los usuarios suscriptores
-        function obtener_usuarios_suscriptores() {
-            // Verificar permisos (opcional)
-            if (!current_user_can('manage_options')) {
-                return new WP_Error('permiso_denegado', 'No tienes permisos para acceder a esta información.', array('status' => 403));
-            }
-            // Obtener los usuarios con el rol 'subscriber'
-            $usuarios = get_users(array(
-                'role' => 'subscriber'
-            ));
-            // Crear el array de respuesta
-            $datos_usuarios = array();
-            foreach ($usuarios as $usuario) {
-                $datos_usuarios[] = array(
-                    'ID' => $usuario->ID,
-                    'username' => $usuario->user_login,
-                    'email' => $usuario->user_email,
-                    'nombre' => $usuario->display_name,
-                );
-            }
-            return rest_ensure_response($datos_usuarios);
-        }
-    // Registrar la API
-        function registrar_api_usuarios_suscriptores() {
-            register_rest_route('miapi/v1', '/suscriptores', array(
-                'methods' => 'GET',
-                'callback' => 'obtener_usuarios_suscriptores',
-                'permission_callback' => '__return_true', // Cambiar a validación si es necesario
-            ));
-        }
-        add_action('rest_api_init', 'registrar_api_usuarios_suscriptores');
-
-/*******************************************************************************
- * BUSCADOR POR CIUDAD
- ******************************************************************************/
-    add_action('pre_get_posts', 'filtrar_comercios_por_ciudad');
-    function filtrar_comercios_por_ciudad($query) {
-        // Verificamos que estamos en la query principal y en el archivo de archivo de comercios
-        if (!is_admin() && $query->is_main_query() && is_post_type_archive('comercios')) {
-            
-            // Verificamos si existe el parámetro de búsqueda por ciudad
-            if (!empty($_GET['search_city'])) {
-                $city = sanitize_text_field($_GET['search_city']);
-                // Añadimos la meta query para el subfield 'city' dentro del grupo 'comerce_data'
-                $query->set('meta_query', [
-                    [
-                        'key'     => 'comerce_data_city', // Nombre del campo en ACF (combinación de grupo y subcampo)
-                        'value'   => $city,
-                        'compare' => 'LIKE',
-                    ]
-                ]);
-            }
-        }
-    }
