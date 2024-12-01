@@ -96,15 +96,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['comercio_nonce_field'
     $headers = array('Content-Type: text/plain; charset=UTF-8');
     wp_mail($to, $subject, $message, $headers);
 
-    echo "<div style='width:100%;max-width:1000px;margin:5rem 0rem;display:flex;flex-firection:column'>
-        <div style='width:100%;padding:2rem 0rem;'>
-            <span style='font-weight:bold;padding:1rem;font-size:1.5rem;'>Gracias por inscribirte. En breve nos pondremos en contacto contigo, mucho ánimo.</span><br>
-            <a style='text-decoration:none;color:white;font-size:1.2rem;' href=". home_url() . ">
-            <button style='background-color:#232323;color:white;padding:1.2rem;width:fit-content;cursor:pointer;margin-top:1rem;'>Volver a la página principal</button>
+    echo"<div class='w-full flex flex-col gap-4 my-8 md:px-16 mx-auto text-center text-orange'>
+            <span style='font-weight:bold;padding:1rem;font-size:1.5rem;'>Gracias por inscribirte. En breve nos pondremos en contacto contigo, mucho ánimo.</span>
+        </div>
+        <div class='w-full flex flex-col justify-center'>
+            <a class='bg-dark w-fit h-fit px-6 text-white px-6 py-3 mx-auto' href=". home_url() . ">
+                Volver a la página principal
             </a>
         </div>
-    </div>";
-    
+        " ;
     exit;
 }
 ?>
