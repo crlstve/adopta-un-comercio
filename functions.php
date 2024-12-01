@@ -21,13 +21,14 @@
             if(!is_archive() || !is_tax() || !is_search()){
                 wp_enqueue_script( 'toggle-forms', get_stylesheet_directory_uri() . '/assets/js/toggle-forms.js', array(), '1.0', false );
             }     
-            if(wp_is_mobile()){
-                wp_enqueue_script( 'splidejs', get_stylesheet_directory_uri() . '/assets/js/splide.min.js', array(), '4.1.3');
-                wp_enqueue_script( 'filter-slider', get_stylesheet_directory_uri() . '/assets/js/filter-slider.js', array(), '4.1.3');
-                wp_script_add_data( 'splidejs', 'defer', true );        
-            }
         }
         add_action( 'wp_enqueue_scripts', 'register_scripts' );
+    // Mapa leaflet
+        function enqueue_local_leaflet_files() {
+            wp_enqueue_style('leaflet-css', get_stylesheet_directory_uri() . '/inc/leaflet/leaflet.css');
+            wp_enqueue_script('leaflet-js', get_stylesheet_directory_uri() . '/inc/leaflet/leaflet.js');
+        }
+        add_action('wp_enqueue_scripts', 'enqueue_local_leaflet_files');        
     // Menú clásico de WordPress
         function child_theme_setup() {
             register_nav_menus(array(
