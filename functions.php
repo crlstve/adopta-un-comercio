@@ -20,7 +20,7 @@
         function register_scripts() {
             if(is_front_page() ||  is_front_page() && is_paged()){
                 wp_enqueue_script( 'toggle-forms', get_stylesheet_directory_uri() . '/assets/js/toggle-forms.js', array(), '1.0', false );
-            }     
+            }    
         }
         add_action( 'wp_enqueue_scripts', 'register_scripts' );
     // Mapa leaflet
@@ -375,6 +375,7 @@
 
 
 /*******************************************************************************
- * CORREO PARA MAPA COMERCIOS
+ * MAPA COMERCIOS
  ******************************************************************************/
- include_once get_template_directory() . '/inc/comercio-mail-sender.php';    
+ // Módulo para envío de comercios
+    include_once get_template_directory() . '/inc/comercio-mail-sender.php';  
