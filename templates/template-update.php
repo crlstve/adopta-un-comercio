@@ -8,14 +8,14 @@ include_once get_template_directory() . '/inc/update-status.php';
         <h1 class="text-lg md:text-3xl text-orange"><?= __('Hola ','adopta') . $post_title; ?></h1>
         <p class="md:px-8"><?php _e('Nos gustaría saber cómo estáis. Por ello os pedimos que nos enviéis la ubicación de vuestro comercio, vuestro estado, así como una mensaje y una fotografía reciente. Esto nos ayudará actualizar la información en nuestro sitio web.', 'adopta'); ?></p>
     </header>
-    <div class="mb-6 mx-auto w-full md:w-8/12">Marca en el mapa la ubicación de tu comercio:</div>
+    <div class="mb-6 mx-auto w-full md:w-8/12"><?php _e('Marca en el mapa la ubicación de tu comercio:','adopta'); ?></div>
     <div id="map" class="h-auto w-full md:w-8/12" style="height: 500px; width:100%;max-width:821px;aspect-ratio: 5/9;margin:auto;"></div>
     <form id="locationForm" enctype="multipart/form-data" method="post" class="flex flex-col gap-4 w-full md:w-8/12 my-12 mx-auto">
         <?php wp_nonce_field('update_status', 'update_nonce_field'); ?>
-         <label class="hidden" for="coordinates">Coordenadas seleccionadas:</label>       
+         <label class="hidden" for="coordinates"><?php _e('Coordenadas seleccionadas:','adopta'); ?></label>
          <input  class="hidden" type="text" id="coordinates" name="coordinates"  required></div>
          <div class="flex flex-col md:flex-row gap-2">
-            <label class="w-full md:w-4/12 self-center" for="direccion">O escribe la dirección:</label>
+            <label class="w-full md:w-4/12 self-center" for="direccion"><?php _e('O escribe la dirección:','adopta'); ?></label>
             <input class="border borderborder-gray-200 w-full" type="text" id="direccion" name="direccion" placeholder="Ej: 3, Avenida de Torrente, Alfafar" required></div>
          </div>
         <input class="hidden" type="number" name="auc_cr" id="auc_cr" value="<?= $commerce_id; ?>" readonly required>
