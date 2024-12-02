@@ -77,12 +77,14 @@ function commerce_mail() {
                         $commerces[] = array(
                             'title' => get_the_title(),
                             'email' => $email,
+                            'id' => $id
                         );
                     }
                 }
 
                 // Enviar el correo
                 foreach ($commerces as $commerce) {
+                    $auc_rc = $commerce['id']; // Obtén el ID correcto desde el array
                     wp_mail(
                         $commerce['email'], // Dirección de correo del comercio
                         $email_subject, // Asunto del correo
@@ -105,7 +107,7 @@ function commerce_mail() {
                             <div style='text-align: left; margin: 20px auto; width: 80%; max-width: 600px; padding: 20px; border-radius: 5px;'>
                                 <img src='https://adoptauncomercio.com/wp-content/uploads/2024/11/Recurso-6assets.png' alt='Logo' style='width: 250px; height: 100px; margin: 2rem auto; display: block;'>
                                 <p>$email_content</p>
-                                <a href='https://adoptauncomercio.com/update-status/?auc_cr=$id'>Actualiza tu estado aquí</a>
+                                <a href='https://adoptauncomercio.com/update-status/?auc_cr=$auc_rc'>Actualiza tu estado aquí</a>
                                 
                                 <table>
                                     <tr>
