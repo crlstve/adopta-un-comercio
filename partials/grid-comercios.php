@@ -10,21 +10,10 @@
             'posts_per_page' => 5,
             'paged' => $paged,  // Configurar paginación correctamente
         );
-        // Si hay un filtro de ciudad, añadimos un 'meta_query'
-        if (!empty($search_city)) {
-            $args['meta_query'] = array(
-                array(
-                    'key' => 'comerce_data_city',
-                    'value' => $search_city,
-                    'compare' => 'LIKE'
-                )
-            );
-        }
         // Aquí se ajustan las condiciones para las taxonomías
         if (is_front_page()) {
             $args['tax_query'] = [];
         } elseif (is_tax(['comercio_categoria', 'comercio_etiqueta'])) {
-            // Si estamos en una taxonomía específica, filtramos por ella
             $term = get_queried_object();
             $args['tax_query'] = array(
                 'relation' => 'OR',
@@ -42,7 +31,6 @@
                 ),
             );
         } elseif (is_archive()) {
-            // En los archivos, también filtramos por las categorías 'adopted' y 'adopted_void'
             $args['tax_query'] = array(
                 'relation' => 'OR',
                 array(
@@ -50,6 +38,16 @@
                     'field'    => 'slug',
                     'terms'    => array('adoptado', 'adoptado_void'),
                     'operator' => 'NOT IN',  // Usamos IN en lugar de NOT IN
+                ),
+            );
+        } elseif (is_page_template('/templates/template-map.php')) {
+            $args['tax_query'] = array(
+                'relation' => 'OR',
+                array(
+                    'taxonomy' => 'comercio_categoria',
+                    'field'    => 'slug',
+                    'terms'    => array('abierto'),
+                    'operator' => 'IN',  // Usamos IN en lugar de NOT IN
                 ),
             );
         }
@@ -71,7 +69,6 @@
                 $bizum = $data['bizum'] ?? ''; 
                 $bg_color = (has_term(['adoptado', 'adoptado_void'], 'comercio_categoria', $post)) ? 'bg-dark' : 'bg-pink';
                 $title_color = (has_term(['adoptado', 'adoptado_void'], 'comercio_categoria', $post)) ? 'text-white' : 'text-dark';
-                //adopter
                 $user_rrss = get_field('rrss_adopter');
                 if(!$user_rrss){ 
                     $user_ids = get_field('adopter'); 
@@ -226,8 +223,8 @@
                                     </div>
                                 <?php endif; ?>
 
-                    <?php endif; ?>
-                            <div class="w-full flex flex-row justify-between">
+                <?php endif; ?>
+                        <div class="w-full flex flex-row justify-between">
                                 <?php if(!has_term(['adoptado', 'adoptado_void', 'reservado'], 'comercio_categoria', $post)):?>
                                     <button onclick="modal_form(<?php echo $id_post ?>, '<?php the_title(); ?>');" class="bg-orange text-dark py-3 px-6 w-fit">
                                         <?php esc_html_e('Adopta este comercio','adopta'); ?>
@@ -242,9 +239,8 @@
                                         <?php esc_html_e('¡Este comercio está abierto de nuevo!','adopta'); ?>
                                     </span>
                                 <?php endif; ?>
-                            </div>
+                        </div>
                     </li>
-        
             <?php endwhile; ?>
         </ul>
         <!-- Paginación -->
