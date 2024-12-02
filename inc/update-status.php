@@ -20,9 +20,10 @@
         // Sanitizar y obtener los valores del formulario
         $update_status = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
         $update_coordinates = isset($_POST['coordinates']) ? sanitize_text_field($_POST['coordinates']) : '';
+        $update_direccion = isset($_POST['direccion']) ? sanitize_textarea_field($_POST['direccion']) : '';
         $update_auc_cr = isset($_POST['auc_cr']) ? sanitize_text_field($_POST['auc_cr']) : '';
         $update_mensaje = isset($_POST['mensaje']) ? sanitize_textarea_field($_POST['mensaje']) : '';
-
+        $update_web = isset($_POST['web']) ? sanitize_textarea_field($_POST['web']) : '';
         // Subida de la imagen
             $uploaded_image = null;  // Inicializar la variable
             if (isset($_FILES['open_img']) && $_FILES['open_img']['error'] === UPLOAD_ERR_OK) {
@@ -44,20 +45,28 @@
         // Actualizar los metadatos
         if ($commerce_id) {
             update_post_meta($commerce_id, 'coordinates', $update_coordinates);
+            update_post_meta($commerce_id, 'web', $update_web);
+            update_post_meta($commerce_id, 'comerce_data_direction', $update_direccion);
             update_post_meta($commerce_id, 'message', $update_mensaje);
         }
 
         // Actualizar el estado del post si corresponde
         if ($update_status === 'abierto' && $commerce_id) {
-            $categoria_reservado = get_term_by('name', 'abierto', 'comercio_categoria');
-            if ($categoria_reservado) {
-                $post_data = array(
-                    'ID' => $commerce_id,
-                );
-                wp_update_post($post_data);
-                wp_set_object_terms($commerce_id, intval($categoria_reservado->term_id), 'comercio_categoria', false);
+            // Obtener la categoría 'abierto'
+            $categoria_abierto = get_term_by('name', 'abierto', 'comercio_categoria');
+            if ($categoria_abierto) {
+                // Obtener las categorías actuales del post
+                $categorias_actuales = wp_get_object_terms($commerce_id, 'comercio_categoria', array('fields' => 'ids'));
+
+                // Si la categoría 'abierto' no está en las categorías actuales, agregarla
+                if (!in_array($categoria_abierto->term_id, $categorias_actuales)) {
+                    // Agregar la categoría 'abierto' sin eliminar las existentes
+                    wp_set_object_terms($commerce_id, array_merge($categorias_actuales, array(intval($categoria_abierto->term_id))), 'comercio_categoria');
+                }
             }
         }
+
+
 
         //
             echo"<div class='w-full flex flex-col gap-4 my-8 md:px-16 mx-auto text-center text-orange'>
