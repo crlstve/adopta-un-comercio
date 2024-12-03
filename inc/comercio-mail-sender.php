@@ -73,11 +73,13 @@ function commerce_mail() {
                         $id = get_the_ID();
                         $data = get_field('comerce_data', $id);
                         $email = $data['email'] ?? '';
+                        $slug = get_post_field('post_name', $id); // Obtiene el slug
                     if ($email) {
                         $commerces[] = array(
                             'title' => get_the_title(),
                             'email' => $email,
-                            'id' => $id
+                            'id' => $id,
+                            'slug' => $slug
                         );
                     }
                 }
@@ -85,6 +87,7 @@ function commerce_mail() {
                 // Enviar el correo
                 foreach ($commerces as $commerce) {
                     $auc_rc = $commerce['id']; // Obtén el ID correcto desde el array
+                    $auc_slg = $commerce['slug']; // Obtén el ID correcto desde el array
                     wp_mail(
                         $commerce['email'], // Dirección de correo del comercio
                         $email_subject, // Asunto del correo
@@ -96,8 +99,9 @@ function commerce_mail() {
                                 /* Aquí puedes agregar tus estilos personalizados */
                                 body { font-family: Arial, sans-serif; }
                                 h2 { color: #0073aa; }
-                                p { font-size: 1rem; line-height: 1.5; }
-                                a { color: #0073aa; text-decoration: none; }
+                                p { font-size: 1.1rem; line-height: 1.5; text-align:center; }
+                                .footer > p, .footer > p > a {font-size:0.8rem;}
+                                a { color: #0073aa; text-decoration: none; font-size:1.1rem}
                                 table { width: 100%; border-spacing: 0; margin-top: 3rem; padding: 2rem 1rem; font-size: 0.8rem; background-color: #232323; color: #ffffff; }
                                 td { text-align: center; }
                                 .footer { background-color: #e7a300; color: #232323; padding: 2rem 1rem; font-size: 0.8rem; }
@@ -107,8 +111,22 @@ function commerce_mail() {
                             <div style='text-align: left; margin: 20px auto; width: 80%; max-width: 600px; padding: 20px; border-radius: 5px;'>
                                 <img src='https://adoptauncomercio.com/wp-content/uploads/2024/11/Recurso-6assets.png' alt='Logo' style='width: 250px; height: 100px; margin: 2rem auto; display: block;'>
                                 <p>$email_content</p>
-                                <a href='https://adoptauncomercio.com/update-status/?auc_cr=$auc_rc'>Actualiza tu estado aquí</a>
-                                
+                                <p><b>¡Hola!</b></p>
+                                <p>
+                                    Llega la Navidad y en Adopta un Comercio hemos recibido muchos mensajes de personas que quieren comprar sus regalos en negocios afectados ¡así que hemos actualizado la web! 
+                                </p>
+                                <p>
+                                   Si tu comercio está abierto o vende de forma online ¡inscríbete en el siguiente formulario! Tras hacerlo, aparecerás en el nuevo apartado de 'Comercios abiertos' y los usuarios podrán comprar tus productos para regalar esta Navidad.  
+                                <&p>
+                                <p>
+                                    ¡Ah! Pero antes, un consejo: si no tienes web, utiliza tus redes sociales para publicar los productos en venta o packs preparados para Navidad ¡así será más fácil ver qué ofreces!
+                                </p>
+                                <table style='background-color:white;'>
+                                    <tr>
+                                        <td style='margin:1.2rem auto;'><a style='background-color:#e7a300;color:white;padding:0.6rem 1.2rem;margin:1rem auto;' href='https://adoptauncomercio.com/update-status/?auc_cr=$auc_rc&auc_slg=$auc_slg'>¡Apúntate como Comercio Abierto!</a></td>
+                                    </tr>
+                                </table>
+                                <p style='margin-top:3rem;'>Sabemos que queda mucho camino por delante. Desde Adopta te mandamos un abrazo y mucha fuerza. </p>
                                 <table>
                                     <tr>
                                         <td><img src='https://adoptauncomercio.com/wp-content/uploads/2024/12/siberia.png' alt='Logo' style='height:16px; margin: 1.6rem 0;'></td>
