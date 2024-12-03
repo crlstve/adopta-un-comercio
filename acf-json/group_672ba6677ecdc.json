@@ -25,7 +25,7 @@
         },
         {
             "key": "field_672ba6697fc2d",
-            "label": "",
+            "label": "influencer",
             "name": "adopter",
             "aria-label": "",
             "type": "user",
@@ -74,5 +74,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1731063986
+    "modified": 1731483818
 }
