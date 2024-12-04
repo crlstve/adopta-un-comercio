@@ -114,7 +114,9 @@
         // Verificar si es el post tipo 'comercios' y si el estado cambia a 'publish'
         if ($post->post_type == 'comercios' && $new_status == 'publish' && $old_status != 'publish') {
             // Obtener el email del campo ACF dentro del grupo 'comerce_data'
+            $id = get_the_ID();
             $email_comercio = get_field('comerce_data_email', $post->ID);
+            $slug = get_post_field('post_name', $id);
             if ($email_comercio) {
                 // Configurar el correo
                 $to = $email_comercio;
@@ -122,11 +124,27 @@
                 $message = "
                 <div style='text-align: left;margin: 20px auto;width: 80%;max-width: 600px;padding: 20px;border-radius: 5px;'>
                     <img src='https://adoptauncomercio.com/wp-content/uploads/2024/11/Recurso-6assets.png' alt='Logo' style='width: 250px;height: 100px;margin:2rem auto;display: block;'>
-                    <h2>Tu comercio ha sido registrado en nuestra web.</h2>
+                    <h2 style='text-align:center;margin-top:2.5rem,margin-bottom:1.5rem'>Tu comercio ha sido registrado en nuestra web.</h2>
                     <p>Nos ponemos manos a la obra para que pueda ser adoptado lo más pronto posible. Recuerda que una vez esté subido a la plataforma, las personas ya pueden empezar a ayudarte, no hace falta estar adoptado por un influencer.</p>
                     <p>Esta iniciativa se ha creado de forma solidaria, para ayudar a cada uno de los comercios locales que lo necesitan. Nos alegra poder servirte de altavoz y te damos mucho ánimo desde diferentes empresas que, como tú, somos de la terreta.</p>
-                    <p>Gracias por confiar en nosotros.</p>
-                    <p>¡Un abrazo!</p>
+                    <hr style='margin:2rem'>
+                    <h2 style='text-align:center;margin-bottom:1.5rem'>¿Tu comercio ya está abierto?</h2>
+                                <p>
+                                   <b>Si tu comercio ya está abierto o vende de forma online</b> ¡inscríbete en el siguiente formulario! Tras hacerlo, aparecerás en el nuevo apartado de 'Comercios abiertos' y los usuarios podrán comprar tus productos para regalar esta Navidad.  
+                                </p>
+                                <p>
+                                    <b>¡Ah! Pero antes, un consejo: si no tienes web, utiliza tus redes sociales para publicar los productos en venta o packs preparados para Navidad ¡así será más fácil ver qué ofreces!</b>
+                                </p>
+                                <table style='background-color: white;margin: 3rem auto;text-align: center;justify-content: center;width: 100%;'>
+                                    <tr>
+                                        <td style='margin:1.2rem auto;'><a style='background-color:#e7a300;color:white;padding:0.6rem 1.2rem;' href='https://adoptauncomercio.com/update-status/?auc_cr=$id&auc_slg=$slug'>¡Apúntate como Comercio Abierto!</a></td>
+                                    </tr>
+                                </table>
+                                <p>Sabemos que queda mucho camino por delante. Desde Adopta te mandamos un abrazo y mucha fuerza. </p>
+                    
+
+
+
                         <table style='background-color:#232323;color:#ffffff;margin-top:3rem;padding:2rem 1rem; font-size:0.8rem;width:100%'>
                             <tr>
                                 <td style='width:33%;text-align:center;'><image src='https://adoptauncomercio.com/wp-content/uploads/2024/12/siberia.png' alt='Logo' style='height:16px;margin:1.6rem 0rem'></td>
