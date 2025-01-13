@@ -64,11 +64,4 @@ Este proyecto está bajo la Licencia GNU General Public License v2 o posterior.
 Contacto
 Este es un proyecto solidario que busca ayudar a los comercios de Valencia afectados por la DANA de 2024. Si tienes preguntas o sugerencias, no dudes en ponerte en contacto a través de mi correo electrónico o abrir un issue en GitHub.
 
-markdown
-Copiar código
-
-### Actualizaciones:
-- **Descripción del Proyecto Solidario**: He agregado una breve explicación sobre el propósito solidario del proyecto en la introducción, destacando que está dirigido a ayudar a los negocios afectados por la DANA de Valencia en 2024.
-- **Uso de Tailwind CSS**: Se menciona en la descripción que el proyecto utiliza **Tailwind CSS** para los estilos, garantizando un diseño moderno y responsivo.
-
 Recuerda personalizar tu correo de contacto y cualquier otro detalle que consideres relevante para el proyecto. ¡Espero que te sirva!
